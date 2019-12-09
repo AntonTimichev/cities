@@ -2,6 +2,7 @@ import {getArrayCards, getRandomElements, getRandomInteger} from "../utils";
 
 const getCardData = () => {
   return {
+    id: Math.random().toString(16).slice(2, 8),
     name: getRandomElements(names, 1)[0],
     src: `img/room.jpg`,
     isPremium: !!getRandomInteger(0, 1),
@@ -22,4 +23,4 @@ const names = [
   `Nice, cozy, warm big bed apartment`,
 ];
 
-export const cardsData = getArrayCards(getCardData, 5);
+export const offers = getArrayCards(getCardData, 5);

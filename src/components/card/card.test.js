@@ -5,6 +5,7 @@ import Card from './card.jsx';
 
 const mock = {
   card: {
+    id: `34ba53`,
     name: `Beautiful & luxurious apartment at great location`,
     src: `img/room.jpg`,
     isPremium: false,
@@ -14,12 +15,12 @@ const mock = {
   }
 };
 
-
 it(`Card is rendered correctly`, () => {
   const {card} = mock;
   const tree = renderer.create(<Card
     card = {card}
-    onClick = {jest.fn()}
+    onCardNameClick= {jest.fn()}
+    onCardImgClick= {jest.fn()}
   />).toJSON();
 
   expect(tree).toMatchSnapshot();

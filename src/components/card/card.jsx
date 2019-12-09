@@ -2,14 +2,19 @@ import React from 'react';
 import propTypes from 'prop-types';
 import CardMark from '../card-mark/card-mark.jsx';
 
-const Card = ({card, onClick}) => {
-  const {name, src, isPremium, price, inBookMark, roomType} = card;
+const Card = ({card, onCardNameClick, onCardImgClick}) => {
+  const {id, name, src, isPremium, price, inBookMark, roomType} = card;
   const btnClass = `place-card__bookmark-button button ${inBookMark ? `place-card__bookmark-button--active` : ``}`;
+
+  const handleCardClick = (e) => {
+    e.preventDefault();
+    onCardImgClick(id);
+  };
 
   return <article className="cities__place-card place-card">
     {isPremium ? <CardMark /> : ``}
     <div className="cities__image-wrapper place-card__image-wrapper">
-      <a href="#">
+      <a href="#" onClick = {handleCardClick}>
         <img className="place-card__image" src={src} width="260" height="200" alt="Place image" />
       </a>
     </div>
@@ -32,7 +37,7 @@ const Card = ({card, onClick}) => {
           <span className="visually-hidden">Rating</span>
         </div>
       </div>
-      <h2 onClick = {onClick} className="place-card__name">
+      <h2 onClick = {onCardNameClick} className="place-card__name">
         <a href="#">{name}</a>
       </h2>
       <p className="place-card__type">{roomType}</p>
@@ -51,5 +56,6 @@ Card.propTypes = {
     inBookMark: propTypes.bool.isRequired,
     roomType: propTypes.string.isRequired,
   }).isRequired,
-  onClick: propTypes.func.isRequired
+  onCardNameClick: propTypes.func.isRequired,
+  onCardImgClick: propTypes.func.isRequired
 };

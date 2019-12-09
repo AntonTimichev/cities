@@ -1,7 +1,7 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 
-import App from './app.jsx';
+import CardsList from './cards-list.jsx';
 
 const mock = {
   cardsData: [
@@ -35,11 +35,11 @@ const mock = {
   ]
 };
 
-
-it(`App is rendered correctly`, () => {
+it(`CardsList is rendered correctly`, () => {
   const {cardsData} = mock;
-  const tree = renderer.create(<App
+  const tree = renderer.create(<CardsList
     cardsData = {cardsData}
+    onCardNameClick={jest.fn()}
   />).toJSON();
 
   expect(tree).toMatchSnapshot();

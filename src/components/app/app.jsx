@@ -1,9 +1,9 @@
 import React from 'react';
 import propTypes from "prop-types";
-import Card from '../card/card.jsx';
+import CardsList from '../cards-list/cards-list.jsx';
 
 const App = ({cardsData}) => {
-  const onNameLinkClick = (evt) => {
+  const handleCardNameClick = (evt) => {
     evt.preventDefault();
   };
 
@@ -105,14 +105,10 @@ const App = ({cardsData}) => {
                 <li className="places__option" tabIndex="0">Top rated first</li>
               </ul>
             </form>
-            <div className="cities__places-list places__list tabs__content">
-              {cardsData.map((card, i) =>
-                <Card
-                  key = {i}
-                  card = {card}
-                  onClick = {onNameLinkClick}
-                />)}
-            </div>
+            <CardsList
+              cardsData={cardsData}
+              onCardNameClick={handleCardNameClick}
+            />
           </section>
           <div className="cities__right-section">
             <section className="cities__map map" />

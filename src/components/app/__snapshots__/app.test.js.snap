@@ -270,6 +270,7 @@ exports[`App is rendered correctly 1`] = `
               >
                 <a
                   href="#"
+                  onClick={[Function]}
                 >
                   <img
                     alt="Place image"
@@ -374,6 +375,7 @@ exports[`App is rendered correctly 1`] = `
               >
                 <a
                   href="#"
+                  onClick={[Function]}
                 >
                   <img
                     alt="Place image"
@@ -472,6 +474,7 @@ exports[`App is rendered correctly 1`] = `
               >
                 <a
                   href="#"
+                  onClick={[Function]}
                 >
                   <img
                     alt="Place image"
