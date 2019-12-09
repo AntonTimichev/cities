@@ -39,7 +39,10 @@ it(`CardsList is rendered correctly`, () => {
   const {cardsData} = mock;
   const tree = renderer.create(<CardsList
     cardsData = {cardsData}
+    activeItem={0}
+    onItemClick={jest.fn()}
     onCardNameClick={jest.fn()}
+    onCardImgClick={jest.fn()}
   />).toJSON();
 
   expect(tree).toMatchSnapshot();

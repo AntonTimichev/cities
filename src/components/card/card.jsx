@@ -1,21 +1,28 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const Card = ({card, onCardNameClick, onCardImgClick}) => {
-  const {id, name, src, isPremium, price, inBookMark, roomType} = card;
+const Card = ({card, isActive, onCardNameClick, onCardImgClick, onItemClick}) => {
+  const {name, src, isPremium, price, inBookMark, roomType} = card;
   const btnClass = `place-card__bookmark-button button ${inBookMark ? `place-card__bookmark-button--active` : ``}`;
 
-  const handleCardClick = (e) => {
+  const handleCardImgClick = (e) => {
     e.preventDefault();
-    onCardImgClick(id);
+    onCardImgClick();
+    onItemClick();
   };
 
-  return <article className="cities__place-card place-card">
-    {isPremium ? <div className="place-card__mark">
+  const handleCardNameClick = (e) => {
+    e.preventDefault();
+    onCardNameClick();
+    onItemClick();
+  };
+
+  return <article className="cities__place-card place-card" style={{opacity: `${isActive ? `0.6` : ``}`}}>
+    {isPremium && <div className="place-card__mark">
       <span>Premium</span>
-    </div> : ``}
+    </div>}
     <div className="cities__image-wrapper place-card__image-wrapper">
-      <a href="#" onClick = {handleCardClick}>
+      <a href="#" onClick = {handleCardImgClick}>
         <img className="place-card__image" src={src} width="260" height="200" alt="Place image" />
       </a>
     </div>
@@ -39,7 +46,7 @@ const Card = ({card, onCardNameClick, onCardImgClick}) => {
         </div>
       </div>
       <h2 onClick = {onCardNameClick} className="place-card__name">
-        <a href="#">{name}</a>
+        <a href="#" onClick={handleCardNameClick}>{name}</a>
       </h2>
       <p className="place-card__type">{roomType}</p>
     </div>
@@ -55,8 +62,10 @@ Card.propTypes = {
     inBookMark: PropTypes.bool.isRequired,
     roomType: PropTypes.string.isRequired,
   }).isRequired,
+  isActive: PropTypes.bool.isRequired,
   onCardNameClick: PropTypes.func.isRequired,
-  onCardImgClick: PropTypes.func.isRequired
+  onCardImgClick: PropTypes.func.isRequired,
+  onItemClick: PropTypes.func.isRequired
 };
 
 export default Card;

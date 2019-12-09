@@ -272,8 +272,12 @@ exports[`App is rendered correctly 1`] = `
           >
             <article
               className="cities__place-card place-card"
+              style={
+                Object {
+                  "opacity": "0.6",
+                }
+              }
             >
-              
               <div
                 className="cities__image-wrapper place-card__image-wrapper"
               >
@@ -358,6 +362,7 @@ exports[`App is rendered correctly 1`] = `
                 >
                   <a
                     href="#"
+                    onClick={[Function]}
                   >
                     Beautiful & luxurious apartment at great location
                   </a>
@@ -371,6 +376,11 @@ exports[`App is rendered correctly 1`] = `
             </article>
             <article
               className="cities__place-card place-card"
+              style={
+                Object {
+                  "opacity": "",
+                }
+              }
             >
               <div
                 className="place-card__mark"
@@ -463,6 +473,7 @@ exports[`App is rendered correctly 1`] = `
                 >
                   <a
                     href="#"
+                    onClick={[Function]}
                   >
                     Wood and stone place
                   </a>
@@ -476,8 +487,12 @@ exports[`App is rendered correctly 1`] = `
             </article>
             <article
               className="cities__place-card place-card"
+              style={
+                Object {
+                  "opacity": "",
+                }
+              }
             >
-              
               <div
                 className="cities__image-wrapper place-card__image-wrapper"
               >
@@ -562,6 +577,7 @@ exports[`App is rendered correctly 1`] = `
                 >
                   <a
                     href="#"
+                    onClick={[Function]}
                   >
                     Nice, cozy, warm big bed apartment
                   </a>

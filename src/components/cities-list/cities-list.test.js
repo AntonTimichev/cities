@@ -5,15 +5,15 @@ import CitiesList from './cities-list.jsx';
 
 const mock = {
   cities: [`Amsterdam`, `Cologne`, `Brussels`, `Paris`, `Hamburg`, `Dusseldorf`],
-  currentCity: `Hamburg`,
   onCityNameClick: jest.fn()
 };
 
 it(`CitiesList is rendered correctly`, () => {
-  const {cities, currentCity, onCityNameClick} = mock;
+  const {cities, onCityNameClick} = mock;
   const tree = renderer.create(<CitiesList
     cities={cities}
-    currentCity={currentCity}
+    activeItem={0}
+    onItemClick={jest.fn()}
     onCityNameClick={onCityNameClick}
   />).toJSON();
 

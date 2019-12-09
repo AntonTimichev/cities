@@ -20,12 +20,14 @@ const mock = {
 
 it(`Onclick on NameLink works correctly`, () => {
   const {card} = mock;
-  const onNameClickHandler = jest.fn();
-  const onCardClickHandler = jest.fn();
+  const handleCardNameClick = jest.fn();
+  const handleCardImgClick = jest.fn();
   const cardComponent = shallow(<Card
     card = {card}
-    onCardNameClick= {onNameClickHandler}
-    onCardImgClick= {onCardClickHandler}
+    isActive={false}
+    onItemClick={jest.fn()}
+    onCardNameClick= {handleCardNameClick}
+    onCardImgClick= {handleCardImgClick}
   />);
 
   const buttonName = cardComponent.find(`.place-card__name`);
@@ -33,12 +35,12 @@ it(`Onclick on NameLink works correctly`, () => {
     preventDefault() {},
   });
 
-  expect(onNameClickHandler).toHaveBeenCalledTimes(1);
+  expect(handleCardNameClick).toHaveBeenCalledTimes(1);
 
   const buttonImg = cardComponent.find(`.place-card__image-wrapper a`);
   buttonImg.simulate(`click`, {
     preventDefault() {},
   });
 
-  expect(onCardClickHandler).toHaveBeenCalledWith(`3e3ff4`);
+  expect(handleCardImgClick).toHaveBeenCalledTimes(1);
 });

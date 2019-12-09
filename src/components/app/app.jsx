@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import {connect} from "react-redux";
 import PropTypes from "prop-types";
 
@@ -6,8 +6,12 @@ import CardsList from '../cards-list/cards-list.jsx';
 import Map from '../map/map.jsx';
 import CitiesList from "../cities-list/cities-list.jsx";
 import {ActionCreator} from "../../reducer";
+import withActiveItem from "../../hocs/with-active-item.jsx";
 
-class App extends Component {
+const CitiesListWrapped = withActiveItem(CitiesList);
+const CardsListWrapped = withActiveItem(CardsList);
+
+class App extends PureComponent {
 
   render() {
     const {cardsData, leaflet, currentCity, cities, onCityNameClick} = this.props;
@@ -57,9 +61,8 @@ class App extends Component {
         <h1 className="visually-hidden">Cities</h1>
         <div className="cities tabs">
           <section className="locations container">
-            <CitiesList
+            <CitiesListWrapped
               cities={cities}
-              currentCity={currentCity}
               onCityNameClick={onCityNameClick}
             />
           </section>
@@ -84,9 +87,10 @@ class App extends Component {
                   <li className="places__option" tabIndex="0">Top rated first</li>
                 </ul>
               </form>
-              <CardsList
+              <CardsListWrapped
                 cardsData={cardsData}
                 onCardNameClick={this._handleCardNameClick}
+                onCardImgClick={this._handleCardImgClick}
               />
             </section>
             <div className="cities__right-section">
@@ -106,8 +110,10 @@ class App extends Component {
     return cards.map((card) => card.coords);
   }
 
-  _handleCardNameClick(evt) {
-    evt.preventDefault();
+  _handleCardNameClick() {
+  }
+
+  _handleCardImgClick() {
   }
 }
 

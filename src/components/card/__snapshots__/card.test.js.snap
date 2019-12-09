@@ -3,8 +3,12 @@
 exports[`Card is rendered correctly 1`] = `
 <article
   className="cities__place-card place-card"
+  style={
+    Object {
+      "opacity": "",
+    }
+  }
 >
-  
   <div
     className="cities__image-wrapper place-card__image-wrapper"
   >
@@ -89,6 +93,7 @@ exports[`Card is rendered correctly 1`] = `
     >
       <a
         href="#"
+        onClick={[Function]}
       >
         Beautiful & luxurious apartment at great location
       </a>

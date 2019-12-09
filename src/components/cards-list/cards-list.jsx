@@ -1,35 +1,23 @@
-import React, {PureComponent} from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 import Card from '../card/card.jsx';
 
-class CardsList extends PureComponent {
-  constructor(props) {
-    super(props);
-    this.state = {
-      activeCard: null
-    };
-    this._handleCardImgClick = this._handleCardImgClick.bind(this);
-  }
+const CardsList = (props) => {
+  const {cardsData, activeItem, onCardNameClick, onCardImgClick, onItemClick} = props;
 
-  render() {
-    const {cardsData, onCardNameClick} = this.props;
-
-    return <div className="cities__places-list places__list tabs__content">
-      {cardsData.map((card, i) =>
-        <Card
-          key = {i}
-          card = {card}
-          onCardNameClick = {onCardNameClick}
-          onCardImgClick= {this._handleCardImgClick}
-        />)}
-    </div>;
-  }
-
-  _handleCardImgClick(id) {
-    this.setState({activeCard: id});
-  }
-}
+  return <div className="cities__places-list places__list tabs__content">
+    {cardsData.map((card, i) =>
+      <Card
+        key={i}
+        card={card}
+        isActive={i === activeItem}
+        onCardNameClick={onCardNameClick}
+        onCardImgClick={onCardImgClick}
+        onItemClick={() => onItemClick(i)}
+      />)}
+  </div>;
+};
 
 export default CardsList;
 
@@ -42,5 +30,8 @@ CardsList.propTypes = {
     inBookMark: PropTypes.bool.isRequired,
     roomType: PropTypes.string.isRequired,
   })).isRequired,
-  onCardNameClick: PropTypes.func.isRequired
+  activeItem: PropTypes.number.isRequired,
+  onCardNameClick: PropTypes.func.isRequired,
+  onCardImgClick: PropTypes.func.isRequired,
+  onItemClick: PropTypes.func.isRequired
 };
