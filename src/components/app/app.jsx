@@ -1,19 +1,17 @@
 import React, {Component} from 'react';
+import {connect} from "react-redux";
 import PropTypes from "prop-types";
+
 import CardsList from '../cards-list/cards-list.jsx';
 import Map from '../map/map.jsx';
+import CitiesList from "../cities-list/cities-list.jsx";
+import {ActionCreator} from "../../reducer";
 
-export default class App extends Component {
-  constructor(props) {
-    super(props);
-    this._cardsData = this.props.cardsData;
-
-    this._handleCardNameClick = this._handleCardNameClick.bind(this);
-  }
+class App extends Component {
 
   render() {
-    const coords = this._getCoords();
-    const {leaflet} = this.props;
+    const {cardsData, leaflet, currentCity, cities, onCityNameClick} = this.props;
+    const coords = this._getCoords(cardsData);
 
     return <section>
       <div style={{display: `none`}}>
@@ -59,45 +57,18 @@ export default class App extends Component {
         <h1 className="visually-hidden">Cities</h1>
         <div className="cities tabs">
           <section className="locations container">
-            <ul className="locations__list tabs__list">
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Paris</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Cologne</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Brussels</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item tabs__item&#45;&#45;active">
-                  <span>Amsterdam</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Hamburg</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Dusseldorf</span>
-                </a>
-              </li>
-            </ul>
+            <CitiesList
+              cities={cities}
+              currentCity={currentCity}
+              onCityNameClick={onCityNameClick}
+            />
           </section>
         </div>
         <div className="cities__places-wrapper">
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">312 places to stay in Amsterdam</b>
+              <b className="places__found">{cardsData.length} places to stay in {currentCity}</b>
               <form className="places__sorting" action="#" method="get">
                 <span className="places__sorting-caption">Sort by</span>
                 <span className="places__sorting-type" tabIndex="0">
@@ -114,7 +85,7 @@ export default class App extends Component {
                 </ul>
               </form>
               <CardsList
-                cardsData={this._cardsData}
+                cardsData={cardsData}
                 onCardNameClick={this._handleCardNameClick}
               />
             </section>
@@ -131,8 +102,8 @@ export default class App extends Component {
     </section>;
   }
 
-  _getCoords() {
-    return this._cardsData.map((card) => card.coords);
+  _getCoords(cards) {
+    return cards.map((card) => card.coords);
   }
 
   _handleCardNameClick(evt) {
@@ -149,6 +120,27 @@ App.propTypes = {
     inBookMark: PropTypes.bool.isRequired,
     roomType: PropTypes.string.isRequired,
   })).isRequired,
-  leaflet: PropTypes.object.isRequired
+  leaflet: PropTypes.object.isRequired,
+  currentCity: PropTypes.string.isRequired,
+  cities: PropTypes.arrayOf(PropTypes.string).isRequired,
+  onCityNameClick: PropTypes.func.isRequired
 };
 
+const mapStateToProps = (state, ownProps) => Object.assign({}, ownProps, {
+  cardsData: state.offers,
+  currentCity: state.currentCity,
+  cities: state.cities
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  onCityNameClick: (cityName) => {
+    dispatch(ActionCreator.changeCity(cityName));
+    dispatch(ActionCreator.getOffers(cityName));
+  },
+});
+
+export {App};
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(App);

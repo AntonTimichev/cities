@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import CardMark from '../card-mark/card-mark.jsx';
 
 const Card = ({card, onCardNameClick, onCardImgClick}) => {
   const {id, name, src, isPremium, price, inBookMark, roomType} = card;
@@ -12,7 +11,9 @@ const Card = ({card, onCardNameClick, onCardImgClick}) => {
   };
 
   return <article className="cities__place-card place-card">
-    {isPremium ? <CardMark /> : ``}
+    {isPremium ? <div className="place-card__mark">
+      <span>Premium</span>
+    </div> : ``}
     <div className="cities__image-wrapper place-card__image-wrapper">
       <a href="#" onClick = {handleCardClick}>
         <img className="place-card__image" src={src} width="260" height="200" alt="Place image" />
@@ -45,8 +46,6 @@ const Card = ({card, onCardNameClick, onCardImgClick}) => {
   </article>;
 };
 
-export default Card;
-
 Card.propTypes = {
   card: PropTypes.shape({
     name: PropTypes.string.isRequired,
@@ -59,3 +58,5 @@ Card.propTypes = {
   onCardNameClick: PropTypes.func.isRequired,
   onCardImgClick: PropTypes.func.isRequired
 };
+
+export default Card;

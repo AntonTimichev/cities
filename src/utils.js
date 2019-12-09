@@ -11,6 +11,9 @@ export const getRandomInteger = (min, max) => {
   return Math.floor(rand);
 };
 
-export const getArrayCards = (fn, amount) => {
-  return Array.from({length: amount}, () => fn());
+export const getArrayCards = (fn, amount, coords) => {
+  return Array.from({length: amount}, () => {
+    const currentCoords = coords.pop();
+    return fn(currentCoords);
+  });
 };

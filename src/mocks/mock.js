@@ -16,5 +16,10 @@ export const leafletMock = {
       addTo: jest.fn(),
     };
   },
+  featureGroup() {
+    return {
+      addTo: jest.fn()
+    };
+  }
 };
 
