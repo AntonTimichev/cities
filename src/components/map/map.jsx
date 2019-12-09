@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
-import {ZOOM, CITY_LOCATION, ICON_SIZE} from "../../constants";
+import {ICON_SIZE} from "../../constants";
 
 class Map extends Component {
   constructor(props) {
@@ -21,16 +21,17 @@ class Map extends Component {
   }
 
   shouldComponentUpdate(nextProps) {
-    const {coords, leaflet} = nextProps;
+    const {coords, leaflet, location} = nextProps;
+    this._location.setView([location.latitude, location.longitude], location.zoom);
     this._removePins();
     this._addPins(coords, leaflet);
-    return true;
+    return false;
   }
 
   _initMap() {
-    const {coords, leaflet} = this.props;
-    const city = [CITY_LOCATION.X, CITY_LOCATION.Y];
-    const zoom = ZOOM;
+    const {coords, leaflet, location} = this.props;
+    const city = [location.latitude, location.longitude];
+    const zoom = location.zoom;
 
     this._icon = leaflet.icon({
       iconUrl: `img/pin.svg`,
@@ -42,13 +43,12 @@ class Map extends Component {
       zoomControl: false,
       marker: true
     });
-
     this._location.setView(city, zoom);
-    leaflet
-      .tileLayer(`https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png`, {
-        attribution: `&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>`
-      })
-      .addTo(this._location);
+
+    leaflet.tileLayer(`https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png`, {
+      attribution: `&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>`
+    }).addTo(this._location);
+
     this._addPins(coords, leaflet);
   }
 
@@ -65,6 +65,7 @@ class Map extends Component {
 }
 
 Map.propTypes = {
+  location: PropTypes.object.isRequired,
   coords: PropTypes.array.isRequired,
   leaflet: PropTypes.object.isRequired
 };

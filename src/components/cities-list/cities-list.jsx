@@ -4,14 +4,14 @@ import PropTypes from "prop-types";
 import CityName from '../city-name/city-name.jsx';
 
 const CitiesList = (props) => {
-  const {cities, activeItem, onItemClick, onCityNameClick} = props;
+  const {cityNames, activeItem, onItemClick, onCityNameClick} = props;
 
   const handleNameClick = (cityName, i) => {
     onItemClick(i);
     onCityNameClick(cityName);
   };
   return <ul className="locations__list tabs__list">
-    {cities.map((city, i) => <CityName
+    {cityNames.map((city, i) => <CityName
       key={i}
       cityName={city}
       isActive={i === activeItem}
@@ -21,7 +21,7 @@ const CitiesList = (props) => {
 };
 
 CitiesList.propTypes = {
-  cities: PropTypes.arrayOf(PropTypes.string).isRequired,
+  cityNames: PropTypes.arrayOf(PropTypes.string).isRequired,
   onCityNameClick: PropTypes.func.isRequired,
   activeItem: PropTypes.number.isRequired,
   onItemClick: PropTypes.func.isRequired

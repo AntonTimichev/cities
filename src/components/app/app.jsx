@@ -2,20 +2,19 @@ import React, {PureComponent} from 'react';
 import {connect} from "react-redux";
 import PropTypes from "prop-types";
 
-import CardsList from '../cards-list/cards-list.jsx';
+import OffersList from '../offers-list/offers-list.jsx';
 import Map from '../map/map.jsx';
 import CitiesList from "../cities-list/cities-list.jsx";
-import {ActionCreator} from "../../reducer";
-import withActiveItem from "../../hocs/with-active-item.jsx";
+import {ActionCreator} from "../../reducer/data/data";
+import {getCurrentCityName, getCityNames, getCurrentCityOffers, getCurrentCityLocation, getCoords} from "../../reducer/data/selectors";
+import withActiveItem from "../../hocs/with-active-item/with-active-item.jsx";
 
 const CitiesListWrapped = withActiveItem(CitiesList);
-const CardsListWrapped = withActiveItem(CardsList);
+const OffersListWrapped = withActiveItem(OffersList);
 
 class App extends PureComponent {
-
   render() {
-    const {cardsData, leaflet, currentCity, cities, onCityNameClick} = this.props;
-    const coords = this._getCoords(cardsData);
+    const {offers, leaflet, currentCity, cityNames, onCityNameClick, location, coords} = this.props;
 
     return <section>
       <div style={{display: `none`}}>
@@ -62,7 +61,7 @@ class App extends PureComponent {
         <div className="cities tabs">
           <section className="locations container">
             <CitiesListWrapped
-              cities={cities}
+              cityNames={cityNames}
               onCityNameClick={onCityNameClick}
             />
           </section>
@@ -71,7 +70,7 @@ class App extends PureComponent {
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{cardsData.length} places to stay in {currentCity}</b>
+              <b className="places__found">{offers.length} places to stay in {currentCity}</b>
               <form className="places__sorting" action="#" method="get">
                 <span className="places__sorting-caption">Sort by</span>
                 <span className="places__sorting-type" tabIndex="0">
@@ -80,21 +79,22 @@ class App extends PureComponent {
                     <use xlinkHref="#icon-arrow-select" />
                   </svg>
                 </span>
-                <ul className="places__options places__options&#45;&#45;custom places__options&#45;&#45;opened">
+                <ul className="places__options places__options&#45;&#45;custom places__options&#45;&#45;">
                   <li className="places__option places__option&#45;&#45;active" tabIndex="0">Popular</li>
                   <li className="places__option" tabIndex="0">Price: low to high</li>
                   <li className="places__option" tabIndex="0">Price: high to low</li>
                   <li className="places__option" tabIndex="0">Top rated first</li>
                 </ul>
               </form>
-              <CardsListWrapped
-                cardsData={cardsData}
-                onCardNameClick={this._handleCardNameClick}
-                onCardImgClick={this._handleCardImgClick}
+              <OffersListWrapped
+                offers={offers}
+                onOfferNameClick={this._handleOfferNameClick}
+                onOfferImgClick={this._handleOfferImgClick}
               />
             </section>
             <div className="cities__right-section">
               <Map
+                location={location}
                 coords={coords}
                 leaflet={leaflet}
               />
@@ -106,42 +106,41 @@ class App extends PureComponent {
     </section>;
   }
 
-  _getCoords(cards) {
-    return cards.map((card) => card.coords);
+  _handleOfferNameClick() {
   }
 
-  _handleCardNameClick() {
-  }
-
-  _handleCardImgClick() {
+  _handleOfferImgClick() {
   }
 }
 
 App.propTypes = {
-  cardsData: PropTypes.arrayOf(PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    src: PropTypes.string.isRequired,
+  offers: PropTypes.arrayOf(PropTypes.shape({
+    title: PropTypes.string.isRequired,
+    previewImage: PropTypes.string.isRequired,
     isPremium: PropTypes.bool.isRequired,
     price: PropTypes.number.isRequired,
-    inBookMark: PropTypes.bool.isRequired,
-    roomType: PropTypes.string.isRequired,
+    isFavorite: PropTypes.bool.isRequired,
+    type: PropTypes.string.isRequired,
   })).isRequired,
+  location: PropTypes.object.isRequired,
   leaflet: PropTypes.object.isRequired,
   currentCity: PropTypes.string.isRequired,
-  cities: PropTypes.arrayOf(PropTypes.string).isRequired,
-  onCityNameClick: PropTypes.func.isRequired
+  cityNames: PropTypes.arrayOf(PropTypes.string).isRequired,
+  onCityNameClick: PropTypes.func.isRequired,
+  coords: PropTypes.arrayOf(PropTypes.array).isRequired
 };
 
 const mapStateToProps = (state, ownProps) => Object.assign({}, ownProps, {
-  cardsData: state.offers,
-  currentCity: state.currentCity,
-  cities: state.cities
+  offers: getCurrentCityOffers(state),
+  currentCity: getCurrentCityName(state),
+  cityNames: getCityNames(state),
+  location: getCurrentCityLocation(state),
+  coords: getCoords(state)
 });
 
 const mapDispatchToProps = (dispatch) => ({
   onCityNameClick: (cityName) => {
-    dispatch(ActionCreator.changeCity(cityName));
-    dispatch(ActionCreator.getOffers(cityName));
+    dispatch(ActionCreator.setCurrentCity(cityName));
   },
 });
 

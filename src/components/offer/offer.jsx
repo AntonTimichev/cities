@@ -1,19 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const Card = ({card, isActive, onCardNameClick, onCardImgClick, onItemClick}) => {
-  const {name, src, isPremium, price, inBookMark, roomType} = card;
-  const btnClass = `place-card__bookmark-button button ${inBookMark ? `place-card__bookmark-button--active` : ``}`;
+const Offer = ({offer, isActive, onOfferNameClick, onOfferImgClick, onItemClick}) => {
+  const {title, previewImage, isPremium, price, isFavorite, type} = offer;
+  const btnClass = `place-card__bookmark-button button ${isFavorite ? `place-card__bookmark-button--active` : ``}`;
 
-  const handleCardImgClick = (e) => {
+  const handleOfferImgClick = (e) => {
     e.preventDefault();
-    onCardImgClick();
+    onOfferImgClick();
     onItemClick();
   };
 
-  const handleCardNameClick = (e) => {
+  const handleOfferNameClick = (e) => {
     e.preventDefault();
-    onCardNameClick();
+    onOfferNameClick();
     onItemClick();
   };
 
@@ -22,8 +22,8 @@ const Card = ({card, isActive, onCardNameClick, onCardImgClick, onItemClick}) =>
       <span>Premium</span>
     </div>}
     <div className="cities__image-wrapper place-card__image-wrapper">
-      <a href="#" onClick = {handleCardImgClick}>
-        <img className="place-card__image" src={src} width="260" height="200" alt="Place image" />
+      <a href="#" onClick = {handleOfferImgClick}>
+        <img className="place-card__image" src={previewImage} width="260" height="200" alt="Place image" />
       </a>
     </div>
     <div className="place-card__info">
@@ -36,7 +36,7 @@ const Card = ({card, isActive, onCardNameClick, onCardImgClick, onItemClick}) =>
           <svg className="place-card__bookmark-icon" width="18" height="19">
             <use xlinkHref="#icon-bookmark" />
           </svg>
-          <span className="visually-hidden">{inBookMark ? `In` : `To`} bookmarks</span>
+          <span className="visually-hidden">{isFavorite ? `In` : `To`} bookmarks</span>
         </button>
       </div>
       <div className="place-card__rating rating">
@@ -45,27 +45,27 @@ const Card = ({card, isActive, onCardNameClick, onCardImgClick, onItemClick}) =>
           <span className="visually-hidden">Rating</span>
         </div>
       </div>
-      <h2 onClick = {onCardNameClick} className="place-card__name">
-        <a href="#" onClick={handleCardNameClick}>{name}</a>
+      <h2 onClick = {onOfferNameClick} className="place-card__name">
+        <a href="#" onClick={handleOfferNameClick}>{title}</a>
       </h2>
-      <p className="place-card__type">{roomType}</p>
+      <p className="place-card__type">{type}</p>
     </div>
   </article>;
 };
 
-Card.propTypes = {
-  card: PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    src: PropTypes.string.isRequired,
+Offer.propTypes = {
+  offer: PropTypes.shape({
+    title: PropTypes.string.isRequired,
+    previewImage: PropTypes.string.isRequired,
     isPremium: PropTypes.bool.isRequired,
     price: PropTypes.number.isRequired,
-    inBookMark: PropTypes.bool.isRequired,
-    roomType: PropTypes.string.isRequired,
+    isFavorite: PropTypes.bool.isRequired,
+    type: PropTypes.string.isRequired,
   }).isRequired,
   isActive: PropTypes.bool.isRequired,
-  onCardNameClick: PropTypes.func.isRequired,
-  onCardImgClick: PropTypes.func.isRequired,
+  onOfferNameClick: PropTypes.func.isRequired,
+  onOfferImgClick: PropTypes.func.isRequired,
   onItemClick: PropTypes.func.isRequired
 };
 
-export default Card;
+export default Offer;
