@@ -1,8 +1,11 @@
 import React from 'react';
 import propTypes from "prop-types";
-import Card from './card.jsx';
+import Card from '../card/card.jsx';
 
 const App = ({cardsData}) => {
+  const onNameLinkClick = (evt) => {
+    evt.preventDefault();
+  };
 
   return <section>
     <div style={{display: `none`}}>
@@ -107,6 +110,7 @@ const App = ({cardsData}) => {
                 <Card
                   key = {i}
                   card = {card}
+                  onClick = {onNameLinkClick}
                 />)}
             </div>
           </section>

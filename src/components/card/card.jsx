@@ -1,8 +1,8 @@
 import React from 'react';
 import propTypes from 'prop-types';
-import CardMark from './card-mark.jsx';
+import CardMark from '../card-mark/card-mark.jsx';
 
-const Card = ({card}) => {
+const Card = ({card, onClick}) => {
   const {name, src, isPremium, price, inBookMark, roomType} = card;
   const btnClass = `place-card__bookmark-button button ${inBookMark ? `place-card__bookmark-button--active` : ``}`;
 
@@ -32,7 +32,7 @@ const Card = ({card}) => {
           <span className="visually-hidden">Rating</span>
         </div>
       </div>
-      <h2 className="place-card__name">
+      <h2 onClick = {onClick} className="place-card__name">
         <a href="#">{name}</a>
       </h2>
       <p className="place-card__type">{roomType}</p>
@@ -50,5 +50,6 @@ Card.propTypes = {
     price: propTypes.number.isRequired,
     inBookMark: propTypes.bool.isRequired,
     roomType: propTypes.string.isRequired,
-  }).isRequired
+  }).isRequired,
+  onClick: propTypes.func.isRequired
 };
