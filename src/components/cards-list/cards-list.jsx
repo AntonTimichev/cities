@@ -1,5 +1,5 @@
 import React, {PureComponent} from 'react';
-import propTypes from 'prop-types';
+import PropTypes from 'prop-types';
 
 import Card from '../card/card.jsx';
 
@@ -34,13 +34,13 @@ class CardsList extends PureComponent {
 export default CardsList;
 
 CardsList.propTypes = {
-  cardsData: propTypes.arrayOf(propTypes.shape({
-    name: propTypes.string.isRequired,
-    src: propTypes.string.isRequired,
-    isPremium: propTypes.bool.isRequired,
-    price: propTypes.number.isRequired,
-    inBookMark: propTypes.bool.isRequired,
-    roomType: propTypes.string.isRequired,
+  cardsData: PropTypes.arrayOf(PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    src: PropTypes.string.isRequired,
+    isPremium: PropTypes.bool.isRequired,
+    price: PropTypes.number.isRequired,
+    inBookMark: PropTypes.bool.isRequired,
+    roomType: PropTypes.string.isRequired,
   })).isRequired,
-  onCardNameClick: propTypes.func.isRequired
+  onCardNameClick: PropTypes.func.isRequired
 };

@@ -2,6 +2,7 @@ import React from 'react';
 import renderer from 'react-test-renderer';
 
 import App from './app.jsx';
+import {leafletMock} from "../../mocks/mock";
 
 const mock = {
   cardsData: [
@@ -32,14 +33,16 @@ const mock = {
       inBookMark: true,
       roomType: `Private room`
     },
-  ]
+  ],
+  leaflet: leafletMock
 };
 
 
 it(`App is rendered correctly`, () => {
-  const {cardsData} = mock;
+  const {cardsData, leaflet} = mock;
   const tree = renderer.create(<App
     cardsData = {cardsData}
+    leaflet={leaflet}
   />).toJSON();
 
   expect(tree).toMatchSnapshot();
