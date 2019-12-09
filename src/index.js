@@ -1,14 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {cardsData} from './components/mok-data.js';
 import App from './components/app.jsx';
 
 
 const init = () => {
-  const elem = document.querySelector(`#root`);
 
   ReactDOM.render(
-      <App />,
-      elem
+      <App
+        cardsData = {cardsData}
+      />,
+      document.querySelector(`#root`)
   );
 };
 
