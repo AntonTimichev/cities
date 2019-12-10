@@ -1,27 +1,38 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import leaflet from 'leaflet';
-import {createStore} from "redux";
+import React from "react";
+import ReactDOM from "react-dom";
+import {createStore, applyMiddleware} from "redux";
 import {Provider} from "react-redux";
+import thunk from "redux-thunk";
+import {compose} from "recompose";
 
-import {offers} from './mocks/offers.js';
-import {reducer} from "./reducer";
-import App from './components/app/app.jsx';
+import history from "./history.js";
+import reducer from "./reducer/index.js";
+import {Operation as DataOperation} from "./reducer/data/data.js";
+import {Operation as UserOperation} from "./reducer/user/user.js";
+import App from "./components/app/app.jsx";
+import {createAPI} from "./api.js";
+import withSwitchPages from "./hocs/with-switch-pages/with-switch-pages.jsx";
 
+const AppWrapped = withSwitchPages(App);
 
 const init = () => {
+  const api = createAPI(() => history.push(`/login`));
   const store = createStore(
       reducer,
-      window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+      compose(
+          applyMiddleware(thunk.withExtraArgument(api)),
+          window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+      )
   );
 
-  ReactDOM.render(<Provider store={store}>
-    <App
-      cardsData={offers}
-      leaflet={leaflet}
-    />
-  </Provider>,
-  document.querySelector(`#root`));
+  store.dispatch(DataOperation.loadOffers());
+  store.dispatch(UserOperation.checkAuth());
+
+  ReactDOM.render(
+      <Provider store={store}>
+        <AppWrapped />
+      </Provider>,
+      document.querySelector(`#root`));
 };
 
 init();

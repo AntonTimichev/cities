@@ -1,55 +1,53 @@
-import React from 'react';
-import renderer from 'react-test-renderer';
+import React from "react";
+import renderer from "react-test-renderer";
+import {MemoryRouter} from 'react-router-dom';
 
-import {App} from './app.jsx';
-import {leafletMock} from "../../mocks/mock";
+import {App} from "./app.jsx";
+import {leafletMock, OffersMock} from "../../mocks/mock";
 
 const mock = {
-  cardsData: [
-    {
-      id: `12ea45`,
-      name: `Beautiful & luxurious apartment at great location`,
-      src: `img/room.jpg`,
-      isPremium: false,
-      price: 86,
-      inBookMark: false,
-      roomType: `Apartment`
-    },
-    {
-      id: `109ff3`,
-      name: `Wood and stone place`,
-      src: `img/room.jpg`,
-      isPremium: true,
-      price: 93,
-      inBookMark: false,
-      roomType: `Apartment`
-    },
-    {
-      id: `34ba53`,
-      name: `Nice, cozy, warm big bed apartment`,
-      src: `img/room.jpg`,
-      isPremium: false,
-      price: 115,
-      inBookMark: true,
-      roomType: `Private room`
-    },
-  ],
+  offers: OffersMock,
   leaflet: leafletMock,
-  cities: [`Amsterdam`, `Cologne`, `Brussels`, `Paris`, `Hamburg`, `Dusseldorf`],
+  cityNames: [`Amsterdam`, `Cologne`, `Brussels`, `Paris`, `Hamburg`, `Dusseldorf`],
   currentCity: `Amsterdam`,
-  onCityNameClick: jest.fn()
+  onCityNameClick: jest.fn(),
+  location: {
+    latitude: 45.325654,
+    longitude: 4.32644,
+    zoom: 14
+  },
+  isAuth: true,
+  coords: [
+    [52.395570, 4.875431],
+    [52.417196, 4.902786],
+    [52.393014, 4.903487],
+    [52.374183, 4.892763],
+    [52.392677, 4.847682],
+    [52.357554, 4.912858],
+    [52.352164, 4.862169],
+    [52.394647, 4.880173],
+    [52.385484, 4.938223],
+    [52.401392, 4.928084],
+    [52.374118, 4.878774],
+    [52.360040, 4.949277],
+    [52.364264, 4.914434]
+  ]
 };
 
-
 it(`App is rendered correctly`, () => {
-  const {cardsData, leaflet, cities, currentCity, onCityNameClick} = mock;
-  const tree = renderer.create(<App
-    cardsData = {cardsData}
-    leaflet={leaflet}
-    cities={cities}
-    currentCity={currentCity}
-    onCityNameClick={onCityNameClick}
-  />).toJSON();
+  const {offers, leaflet, cityNames, currentCity, onCityNameClick, location, coords, isAuth} = mock;
+  const tree = renderer.create(<MemoryRouter>
+    <App
+      offers={offers}
+      leaflet={leaflet}
+      cityNames={cityNames}
+      currentCity={currentCity}
+      onCityNameClick={onCityNameClick}
+      location={location}
+      coords={coords}
+      isAuth={isAuth}
+    />
+  </MemoryRouter>).toJSON();
 
   expect(tree).toMatchSnapshot();
 });

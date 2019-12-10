@@ -1,20 +1,14 @@
-import React from 'react';
-import renderer from 'react-test-renderer';
+import React from "react";
+import renderer from "react-test-renderer";
 
-import CityName from './city-name.jsx';
-
-const mock = {
-  cityName: `Amsterdam`,
-  currentCity: `Hamburg`,
-  onCityNameClick: jest.fn()
-};
+import CityName from "./city-name.jsx";
 
 it(`CityName is rendered correctly`, () => {
-  const {cityName, currentCity, onCityNameClick} = mock;
+  const cityName = `Amsterdam`;
   const tree = renderer.create(<CityName
     cityName={cityName}
-    currentCity={currentCity}
-    onCityNameClick={onCityNameClick}
+    isActive={false}
+    onItemClick={jest.fn()}
   />).toJSON();
 
   expect(tree).toMatchSnapshot();
