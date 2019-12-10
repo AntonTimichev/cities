@@ -2,14 +2,13 @@ import React from "react";
 import PropTypes from "prop-types";
 import {Link} from "react-router-dom";
 
-const Offer = ({offer, isActive, onOfferImgClick, onItemClick, linkName}) => {
-  const {title, previewImage, isPremium, price, isFavorite, type} = offer;
+const Offer = ({offer, isActive, onOfferImgClick, linkName}) => {
+  const {title, previewImage, isPremium, price, isFavorite, type, id} = offer;
   const btnClass = `place-card__bookmark-button button ${isFavorite ? `place-card__bookmark-button--active` : ``}`;
 
   const handleOfferImgClick = (e) => {
     e.preventDefault();
-    onOfferImgClick();
-    onItemClick();
+    onOfferImgClick(isActive ? -1 : id);
   };
 
   return <article className="cities__place-card place-card" style={{opacity: `${isActive ? `0.6` : ``}`}}>
@@ -59,8 +58,7 @@ Offer.propTypes = {
   }).isRequired,
   isActive: PropTypes.bool.isRequired,
   linkName: PropTypes.string.isRequired,
-  onOfferImgClick: PropTypes.func.isRequired,
-  onItemClick: PropTypes.func.isRequired
+  onOfferImgClick: PropTypes.func.isRequired
 };
 
 export default Offer;

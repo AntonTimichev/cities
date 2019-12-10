@@ -17,7 +17,6 @@ it(`Onclick on NameLink works correctly`, () => {
       offer={offer}
       isActive={false}
       linkName={`offer/1`}
-      onItemClick={jest.fn()}
       onOfferImgClick={handleOfferImgClick}
     />
   </MemoryRouter>);

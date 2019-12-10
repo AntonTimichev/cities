@@ -12,7 +12,9 @@ const Operation = {
   authenticateUser: (user) => (dispatch, _getState, api) => {
     api.post(`/login`, user)
       .then((response) => {
-        dispatch(ActionCreator.setUser(response.data));
+        if (response.status === 200) {
+          dispatch(ActionCreator.setUser(response.data));
+        }
       });
   },
   checkAuth: () => (dispatch, _getState, api) => {

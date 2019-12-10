@@ -8,7 +8,7 @@ it(`CityName is rendered correctly`, () => {
   const tree = renderer.create(<CityName
     cityName={cityName}
     isActive={false}
-    onItemClick={jest.fn()}
+    onCityNameClick={jest.fn()}
   />).toJSON();
 
   expect(tree).toMatchSnapshot();

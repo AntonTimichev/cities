@@ -13,7 +13,6 @@ it(`Offer is rendered correctly`, () => {
       offer={offer}
       isActive={false}
       linkName={`offer/1`}
-      onItemClick={jest.fn()}
       onOfferImgClick={jest.fn()}
     />
   </MemoryRouter>).toJSON();

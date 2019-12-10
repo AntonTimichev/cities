@@ -3,17 +3,17 @@ import {configure, mount} from "enzyme";
 import Adapter from "enzyme-adapter-react-16";
 import {MemoryRouter} from 'react-router-dom';
 
-import {withPrivateRoute} from "./with-private-route.jsx";
+import withPrivateRoute from "./with-private-route.jsx";
 
 configure({adapter: new Adapter()});
 
 const MockComponent = () => <div />;
-const WithPrivateRoute = withPrivateRoute();
+const WithPrivateRoute = withPrivateRoute(MockComponent);
 
 it(`renders a redirect when the user is not authorised`, () => {
   const wrapper = mount(
       <MemoryRouter initialEntries={[`/privateComponent`]}>
-        <WithPrivateRoute path='/privateComponent' component={MockComponent} isAuth={false} />
+        <WithPrivateRoute path='/privateComponent' isAuth={false} />
       </MemoryRouter>
   );
   expect(
@@ -25,7 +25,7 @@ it(`renders a redirect when the user is not authorised`, () => {
 it(`renders a component when the user is authorised`, () => {
   const wrapper = mount(
       <MemoryRouter initialEntries={[`/privateComponent`]}>
-        <WithPrivateRoute path='/privateComponent' component={MockComponent} isAuth={true} />
+        <WithPrivateRoute path='/privateComponent' isAuth={true} />
       </MemoryRouter>
   );
   expect(

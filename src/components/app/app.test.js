@@ -11,41 +11,43 @@ const mock = {
   cityNames: [`Amsterdam`, `Cologne`, `Brussels`, `Paris`, `Hamburg`, `Dusseldorf`],
   currentCity: `Amsterdam`,
   onCityNameClick: jest.fn(),
+  onItemClick: jest.fn(),
+  activeItem: -1,
   location: {
     latitude: 45.325654,
     longitude: 4.32644,
     zoom: 14
   },
   isAuth: true,
-  coords: [
-    [52.395570, 4.875431],
-    [52.417196, 4.902786],
-    [52.393014, 4.903487],
-    [52.374183, 4.892763],
-    [52.392677, 4.847682],
-    [52.357554, 4.912858],
-    [52.352164, 4.862169],
-    [52.394647, 4.880173],
-    [52.385484, 4.938223],
-    [52.401392, 4.928084],
-    [52.374118, 4.878774],
-    [52.360040, 4.949277],
-    [52.364264, 4.914434]
+  mappedCoords: [
+    {
+      id: 10,
+      position: [52.3909553943508, 4.85309666406198]
+    },
+    {
+      id: 13,
+      position: [52.3909553943508, 4.929309666406198]
+    },
+    {
+      id: 18,
+      position: [52.3809553941245, 4.939309666405649]
+    }
   ]
 };
 
 it(`App is rendered correctly`, () => {
-  const {offers, leaflet, cityNames, currentCity, onCityNameClick, location, coords, isAuth} = mock;
+  const {offers, cityNames, currentCity, onCityNameClick, location, mappedCoords, activeItem, onItemClick, leaflet} = mock;
   const tree = renderer.create(<MemoryRouter>
     <App
       offers={offers}
-      leaflet={leaflet}
-      cityNames={cityNames}
       currentCity={currentCity}
-      onCityNameClick={onCityNameClick}
+      cityNames={cityNames}
       location={location}
-      coords={coords}
-      isAuth={isAuth}
+      mappedCoords={mappedCoords}
+      activeItem={activeItem}
+      onCityNameClick={onCityNameClick}
+      onItemClick={onItemClick}
+      leaflet={leaflet}
     />
   </MemoryRouter>).toJSON();
 

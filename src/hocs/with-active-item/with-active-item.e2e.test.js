@@ -11,7 +11,7 @@ const MockComponentWrapped = withActiveItem(MockComponent);
 it(`Should change activeItem when call onPlayButtonClick`, () => {
   const wrapper = shallow(<MockComponentWrapped />);
 
-  expect(wrapper.state().activeItem).toEqual(0);
+  expect(wrapper.state().activeItem).toEqual(-1);
 
   wrapper.props().onItemClick(1);
   expect(wrapper.state().activeItem).toEqual(1);

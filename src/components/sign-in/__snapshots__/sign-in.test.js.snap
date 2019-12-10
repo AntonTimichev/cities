@@ -31,8 +31,14 @@ exports[`SignIn is rendered correctly 1`] = `
           <input
             className="login__input form__input"
             name="email"
+            onBlur={[MockFunction]}
             placeholder="Email"
             required={true}
+            style={
+              Object {
+                "backgroundColor": "",
+              }
+            }
             type="email"
           />
         </div>
@@ -47,13 +53,20 @@ exports[`SignIn is rendered correctly 1`] = `
           <input
             className="login__input form__input"
             name="password"
+            onBlur={[MockFunction]}
             placeholder="Password"
             required={true}
+            style={
+              Object {
+                "backgroundColor": "",
+              }
+            }
             type="password"
           />
         </div>
         <button
           className="login__submit form__submit button"
+          onClick={[Function]}
           type="submit"
         >
           Sign in

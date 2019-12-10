@@ -1,4 +1,4 @@
-export default class ModelOffer {
+export default class OfferModel {
   constructor(data) {
     this.bedrooms = data[`bedrooms`];
     this.city = {
@@ -35,11 +35,11 @@ export default class ModelOffer {
   }
 
   static parseToOffer(data) {
-    return new ModelOffer(data);
+    return new OfferModel(data);
   }
 
   static parseToOffers(data) {
-    return data.map(ModelOffer.parseToOffer);
+    return data.map(OfferModel.parseToOffer);
   }
 
   static parseToServer(data) {

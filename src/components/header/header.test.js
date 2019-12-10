@@ -4,10 +4,15 @@ import {MemoryRouter} from 'react-router-dom';
 
 import Header from "./header.jsx";
 
+const user = {
+  avatar: ``,
+  email: ``
+};
+
 it(`Header is rendered correctly`, () => {
   const tree = renderer.create(<MemoryRouter>
     <Header
-      isAuth={true}
+      user={user}
     />
   </MemoryRouter>).toJSON();
 

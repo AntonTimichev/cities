@@ -5,7 +5,7 @@ const withActiveItem = (Component) => {
     constructor(props) {
       super(props);
       this.state = {
-        activeItem: 0
+        activeItem: -1
       };
 
       this._handleItemClick = this._handleItemClick.bind(this);
@@ -21,8 +21,8 @@ const withActiveItem = (Component) => {
       />;
     }
 
-    _handleItemClick(i) {
-      this.setState({activeItem: i});
+    _handleItemClick(activeItem) {
+      this.setState({activeItem});
     }
   };
 };

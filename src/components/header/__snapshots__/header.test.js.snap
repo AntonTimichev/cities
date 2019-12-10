@@ -79,16 +79,20 @@ Array [
             >
               <a
                 className="header__nav-link header__nav-link--profile"
-                href="/favorite"
+                href="/login"
                 onClick={[Function]}
               >
                 <div
                   className="header__avatar-wrapper user__avatar-wrapper"
-                />
+                >
+                  <img
+                    src="../img/avatar.svg"
+                  />
+                </div>
                 <span
                   className="header__user-name user__name"
                 >
-                  User@mail.ru
+                  Sign In
                 </span>
               </a>
             </li>

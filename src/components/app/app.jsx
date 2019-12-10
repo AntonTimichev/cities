@@ -2,29 +2,40 @@ import React, {PureComponent} from "react";
 import {connect} from "react-redux";
 import PropTypes from "prop-types";
 
+
 import OffersList from "../offers-list/offers-list.jsx";
-import Map from "../map/map.jsx";
+import withMap from "../../hocs/with-map/with-map.jsx";
 import CitiesList from "../cities-list/cities-list.jsx";
 import {ActionCreator} from "../../reducer/data/data";
-import {getCurrentCityName, getCityNames, getCurrentCityOffers, getCurrentCityLocation, getCoords} from "../../reducer/data/selectors";
-import withActiveItem from "../../hocs/with-active-item/with-active-item.jsx";
-import {getIsAuth} from "../../reducer/user/selectors";
+import {
+  getCurrentCityName,
+  getCityNames,
+  getCurrentCityOffers,
+  getCurrentCityLocation,
+  getCityOffersCoords
+} from "../../reducer/data/selectors.js";
+import {MAIN_MAP} from "../../hocs/with-map/class-names.js";
 
-const CitiesListWrapped = withActiveItem(CitiesList);
-const OffersListWrapped = withActiveItem(OffersList);
+const MapWrapped = withMap(MAIN_MAP);
 
 class App extends PureComponent {
+  constructor(props) {
+    super(props);
+
+    this._handleOfferNameClick = this._handleOfferNameClick.bind(this);
+  }
+
   render() {
-    const {offers, leaflet, currentCity, cityNames, onCityNameClick, location, coords} = this.props;
+    const {offers, currentCity, cityNames, location, mappedCoords, activeItem, onItemClick, leaflet} = this.props;
 
     return <main className="page__main page__main&#45;&#45;index">
       <h1 className="visually-hidden">Cities</h1>
       <div className="cities tabs">
         <section className="locations container">
-          <CitiesListWrapped
-            activeItem={0}
+          <CitiesList
+            currentCity={currentCity}
             cityNames={cityNames}
-            onCityNameClick={onCityNameClick}
+            onCityNameClick={this._handleOfferNameClick}
           />
         </section>
       </div>
@@ -48,16 +59,18 @@ class App extends PureComponent {
                 <li className="places__option" tabIndex="0">Top rated first</li>
               </ul>
             </form>
-            <OffersListWrapped
-              activeItem={-1}
+            <OffersList
+              activeItem={activeItem}
               offers={offers}
-              onOfferImgClick={this._handleOfferImgClick}
+              onOfferImgClick={onItemClick}
             />
           </section>
           <div className="cities__right-section">
-            <Map
+            <MapWrapped
               location={location}
-              coords={coords}
+              mappedCoords={mappedCoords}
+              id={activeItem}
+              initCoords={{}}
               leaflet={leaflet}
             />
           </div>
@@ -66,10 +79,10 @@ class App extends PureComponent {
     </main>;
   }
 
-  _handleOfferNameClick() {
-  }
-
-  _handleOfferImgClick() {
+  _handleOfferNameClick(cityName) {
+    const {onCityNameClick, onItemClick} = this.props;
+    onItemClick(-1);
+    onCityNameClick(cityName);
   }
 }
 
@@ -82,22 +95,25 @@ App.propTypes = {
     isFavorite: PropTypes.bool.isRequired,
     type: PropTypes.string.isRequired,
   })).isRequired,
+  mappedCoords: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    position: PropTypes.array.isRequired
+  })),
   location: PropTypes.object.isRequired,
-  leaflet: PropTypes.object.isRequired,
   currentCity: PropTypes.string.isRequired,
   cityNames: PropTypes.arrayOf(PropTypes.string).isRequired,
   onCityNameClick: PropTypes.func.isRequired,
-  coords: PropTypes.arrayOf(PropTypes.array).isRequired,
-  isAuth: PropTypes.bool.isRequired
+  activeItem: PropTypes.number,
+  onItemClick: PropTypes.func,
+  leaflet: PropTypes.object.isRequired
 };
 
 const mapStateToProps = (state, ownProps) => Object.assign({}, ownProps, {
-  isAuth: getIsAuth(state),
   offers: getCurrentCityOffers(state),
   currentCity: getCurrentCityName(state),
   cityNames: getCityNames(state),
   location: getCurrentCityLocation(state),
-  coords: getCoords(state),
+  mappedCoords: getCityOffersCoords(state)
 });
 
 const mapDispatchToProps = (dispatch) => ({

@@ -12,7 +12,7 @@ it(`Onclick on NameLink works correctly`, () => {
   const cityNameComponent = shallow(<CityName
     cityName={cityName}
     isActive={false}
-    onItemClick={handleCityNameClick}
+    onCityNameClick={handleCityNameClick}
   />);
 
   const buttonName = cityNameComponent.find(`.locations__item a`);

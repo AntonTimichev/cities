@@ -2,8 +2,8 @@ import React from "react";
 import PropTypes from "prop-types";
 import {Link} from "react-router-dom";
 
-const Header = (props) => {
-  const {isAuth} = props;
+const Header = ({user}) => {
+  const {avatar, email} = user;
 
   return <React.Fragment>
     <div style={{display: `none`}}>
@@ -33,10 +33,11 @@ const Header = (props) => {
           <nav className="header__nav">
             <ul className="header__nav-list">
               <li className="header__nav-item user">
-                <Link className="header__nav-link header__nav-link&#45;&#45;profile" to={isAuth ? `/favorite` : `/login`}>
+                <Link className="header__nav-link header__nav-link&#45;&#45;profile" to={email ? `/favorite` : `/login`}>
                   <div className="header__avatar-wrapper user__avatar-wrapper">
+                    <img src={avatar ? avatar : `../img/avatar.svg`} />
                   </div>
-                  <span className="header__user-name user__name">{isAuth ? `User@mail.ru` : `Sign In`}</span>
+                  <span className="header__user-name user__name">{email ? `${email}` : `Sign In`}</span>
                 </Link>
               </li>
             </ul>
@@ -48,7 +49,7 @@ const Header = (props) => {
 };
 
 Header.propTypes = {
-  isAuth: PropTypes.bool.isRequired
+  user: PropTypes.object.isRequired
 };
 
 export default Header;

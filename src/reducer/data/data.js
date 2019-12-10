@@ -1,24 +1,26 @@
-import ModelOffer from "../../model-offer.js";
+import OfferModel from "../../data-models/offer-model.js";
+import ReviewModel from "../../data-models/review-model.js";
 
 const initialState = {
   currentCity: ``,
   data: [],
   isLoaded: false,
-  currentOfferId: null
+  currentOfferId: -1,
+  reviews: []
 };
 
 const ActionType = {
   SET_CURRENT_CITY: `SET_CURRENT_CITY`,
   LOAD_OFFERS: `LOAD_OFFERS`,
   LOAD_COMPLETE: `LOAD_COMPLETE`,
-  SET_CURRENT_OFFER_ID: `GET_OFFER_DATA`
+  LOAD_REVIEWS: `LOAD_REVIEWS`
 };
 
 const Operation = {
   loadOffers: () => (dispatch, _getState, api) => {
     api.get(`/hotels`)
       .then((response) => {
-        const parsedData = ModelOffer.parseToOffers(response.data);
+        const parsedData = OfferModel.parseToOffers(response.data);
         dispatch(ActionCreator.loadOffers(parsedData));
         return parsedData;
       })
@@ -27,6 +29,16 @@ const Operation = {
         dispatch(ActionCreator.setCurrentCity(sortedData[0]));
       })
       .then(() => dispatch(ActionCreator.loadComplete()));
+  },
+  loadReviews: (id) => (dispatch, _getState, api) => {
+    api.get(`comments/${id}`)
+      .then((response) => {
+        if (response.status === 200) {
+          const parsedData = ReviewModel.parseToReviews(response.data);
+          dispatch(ActionCreator.loadReviews(parsedData));
+        }
+      })
+      .catch(() => dispatch(ActionCreator.loadReviews([])));
   }
 };
 
@@ -46,10 +58,10 @@ const ActionCreator = {
     payload: true
   }),
 
-  setCurrentOfferId: (id) => ({
-    type: ActionType.SET_CURRENT_OFFER_ID,
-    payload: id
-  })
+  loadReviews: (reviews) => ({
+    type: ActionType.LOAD_REVIEWS,
+    payload: reviews
+  }),
 };
 
 const reducer = (state = initialState, action) => {
@@ -69,9 +81,9 @@ const reducer = (state = initialState, action) => {
         isLoaded: action.payload
       });
 
-    case ActionType.SET_CURRENT_OFFER_ID:
+    case ActionType.LOAD_REVIEWS:
       return Object.assign({}, state, {
-        currentOfferId: action.payload
+        reviews: action.payload
       });
   }
   return state;

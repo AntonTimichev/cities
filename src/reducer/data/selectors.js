@@ -4,10 +4,15 @@ import NameSpaces from "../name-spaces.js";
 
 const NAME_SPACE = NameSpaces.DATA;
 const getData = (state) => state[NAME_SPACE].data;
+const getMappedCoords = (offers) => offers.map((offer) => ({
+  id: offer.id,
+  position: [offer.location.latitude, offer.location.longitude]
+}));
 export const getOfferData = (state, id) => state[NAME_SPACE].data.find((offer) => offer.id === id);
+export const getCurrentOfferId = (state) => state[NAME_SPACE].currentOfferId;
 
 export const getIsLoaded = (state) => state[NAME_SPACE].isLoaded;
-export const getCurrentCityName = (state) => state[NAME_SPACE].currentCity;
+export const getCurrentCityName = (state, id) => id ? getOfferData(state, id).city.name : state[NAME_SPACE].currentCity;
 export const getCurrentCityLocation = createSelector(
     getCurrentCityName,
     getData,
@@ -25,8 +30,35 @@ export const getCurrentCityOffers = createSelector(
     getData,
     (name, data) => data.filter((offer) => offer.city.name === name)
 );
-export const getCoords = createSelector(
+export const getCityOffersCoords = createSelector(
     getCurrentCityOffers,
-    (offers) => offers.map((offer) => [offer.location.latitude, offer.location.longitude])
+    getMappedCoords
 );
+export const getNearOffers = createSelector(
+    getOfferData,
+    getCurrentCityOffers,
+    (currentOffer, offers) => {
+      const {location} = currentOffer;
+      const distances = offers.map((offer) => {
+        const offerX = offer.location.latitude;
+        const offerY = offer.location.longitude;
+        const currentOfferX = location.latitude;
+        const currentOfferY = location.longitude;
+        const deltaX = Math.abs(currentOfferX - offerX);
+        const deltaY = Math.abs(currentOfferY - offerY);
+        return {
+          offer,
+          distance: Math.hypot(deltaX, deltaY)
+        };
+      });
+      const sortedDistances = distances.sort((a, b) => a.distance - b.distance);
+      const nearOffers = sortedDistances.map((item) => item.offer);
+      return nearOffers.length > 4 ? nearOffers.slice(0, 4) : nearOffers;
+    }
+);
+export const getNearOffersCoords = createSelector(
+    getNearOffers,
+    getMappedCoords
+);
+export const getCurrentReviews = (state) => state[NAME_SPACE].reviews;
 
