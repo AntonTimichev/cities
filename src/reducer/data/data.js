@@ -41,6 +41,15 @@ const Operation = {
         }
       })
       .catch(() => dispatch(ActionCreator.loadReviews([])));
+  },
+  postReview: (data, id) => (dispatch, _getState, api) => {
+    api.post(`/comments/${id}`, data)
+      .then((response) => {
+        if (response.status === 200) {
+          const parsedData = ReviewModel.parseToReviews(response.data);
+          dispatch(ActionCreator.loadReviews(parsedData));
+        }
+      });
   }
 };
 

@@ -5,7 +5,7 @@ import ReviewItem from "../review-item/review-item.jsx";
 
 const ReviewsList = ({reviews}) => {
   const sortedReviews = reviews.sort((a, b) => {
-    return new Date(a.date).getTime() - new Date(b.date).getTime();
+    return new Date(b.date).getTime() - new Date(a.date).getTime();
   });
 
   return <ul className="reviews__list">

@@ -16,13 +16,8 @@ const withDetails = (Component) => {
     }
 
     render() {
-      const {offerData, reviews, nearOffers, mappedCoords} = this.props;
       return <Component
         {... this.props}
-        offerData={offerData}
-        reviews={reviews}
-        nearOffers={nearOffers}
-        mappedCoords={mappedCoords}
       />;
     }
   }
@@ -53,6 +48,9 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   getReviews: () => {
     dispatch(DataOperation.loadReviews(Number(ownProps.match.params.id)));
   },
+  postReview: (data) => {
+    dispatch(DataOperation.postReview(data, Number(ownProps.match.params.id)));
+  }
 });
 
 export {withDetails};

@@ -33,18 +33,18 @@ const withSwitchPages = (Component) => {
         <Header user={userParams} />
         <Switch>
           <Route path="/" exact render={() => {
-            setClassForBody(bodyClasses.main);
+            setClassForBody(`main`);
             return <Component {...this.props} leaflet={leaflet} />;
           }} />
           <Route path="/login" render={() => {
-            setClassForBody(bodyClasses.login);
+            setClassForBody(`login`);
             return isAuth
               ? <Redirect to='/' />
               : <SignInWrapped setUser={setUser} />;
           }} />
           <Route path="/offer/:id" render={(props) => {
-            setClassForBody(bodyClasses.offer);
-            return <PropertyWrapped {...props} leaflet={leaflet} />;
+            setClassForBody(`offer`);
+            return <PropertyWrapped {...props} leaflet={leaflet} isAuth={isAuth} />;
           }} />
           <WithPrivateRoute path="/favorite" isAuth={isAuth} classKey={`favorite`} />
           <Route path="*" render={() => {

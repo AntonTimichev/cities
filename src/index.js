@@ -28,7 +28,6 @@ const init = () => {
 
   store.dispatch(DataOperation.loadOffers());
   store.dispatch(UserOperation.checkAuth());
-
   ReactDOM.render(
       <Provider store={store}>
         <AppWrapped />

@@ -9,6 +9,8 @@ const mock = {
   nearOffers: OffersMock,
   offerData: OffersMock[0],
   leaflet: leafletMock,
+  isAuth: false,
+  postReview: jest.fn(),
   mappedCoords: [
     {
       id: 10,
@@ -52,7 +54,7 @@ const mock = {
 };
 
 it(`Property is rendered correctly`, () => {
-  const {offerData, reviews, nearOffers, mappedCoords, leaflet} = mock;
+  const {offerData, reviews, nearOffers, mappedCoords, leaflet, isAuth, postReview} = mock;
   const tree = renderer.create(<MemoryRouter>
     <Property
       offerData={offerData}
@@ -60,6 +62,8 @@ it(`Property is rendered correctly`, () => {
       nearOffers={nearOffers}
       mappedCoords={mappedCoords}
       leaflet={leaflet}
+      isAuth={isAuth}
+      postReview={postReview}
     />
   </MemoryRouter>).toJSON();
 
