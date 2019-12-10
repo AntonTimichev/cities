@@ -1,8 +1,7 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 
-import {App} from './app.jsx';
-import {leafletMock} from "../../mocks/mock";
+import CardsList from './cards-list.jsx';
 
 const mock = {
   cardsData: [
@@ -33,22 +32,14 @@ const mock = {
       inBookMark: true,
       roomType: `Private room`
     },
-  ],
-  leaflet: leafletMock,
-  cities: [`Amsterdam`, `Cologne`, `Brussels`, `Paris`, `Hamburg`, `Dusseldorf`],
-  currentCity: `Amsterdam`,
-  onCityNameClick: jest.fn()
+  ]
 };
 
-
-it(`App is rendered correctly`, () => {
-  const {cardsData, leaflet, cities, currentCity, onCityNameClick} = mock;
-  const tree = renderer.create(<App
+it(`CardsList is rendered correctly`, () => {
+  const {cardsData} = mock;
+  const tree = renderer.create(<CardsList
     cardsData = {cardsData}
-    leaflet={leaflet}
-    cities={cities}
-    currentCity={currentCity}
-    onCityNameClick={onCityNameClick}
+    onCardNameClick={jest.fn()}
   />).toJSON();
 
   expect(tree).toMatchSnapshot();

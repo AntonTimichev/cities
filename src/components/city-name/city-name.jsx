@@ -2,12 +2,13 @@ import React from 'react';
 import PropTypes from "prop-types";
 
 const CityName = (props) => {
-  const {cityName, isActive, onItemClick} = props;
+  const {cityName, currentCity, onCityNameClick} = props;
+  const isActive = cityName === currentCity;
   const classOfCity = `locations__item-link tabs__item ${isActive ? `tabs__item--active` : ``}`;
 
   const handleCityNameClick = (e) => {
     e.preventDefault();
-    onItemClick();
+    onCityNameClick(cityName);
   };
 
   return <li className="locations__item">
@@ -19,8 +20,8 @@ const CityName = (props) => {
 
 CityName.propTypes = {
   cityName: PropTypes.string.isRequired,
-  isActive: PropTypes.bool.isRequired,
-  onItemClick: PropTypes.func.isRequired
+  currentCity: PropTypes.string.isRequired,
+  onCityNameClick: PropTypes.func.isRequired
 };
 
 export default CityName;

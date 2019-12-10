@@ -239,7 +239,7 @@ exports[`App is rendered correctly 1`] = `
               </svg>
             </span>
             <ul
-              className="places__options places__options--custom places__options--"
+              className="places__options places__options--custom places__options--opened"
             >
               <li
                 className="places__option places__option--active"
@@ -272,19 +272,8 @@ exports[`App is rendered correctly 1`] = `
           >
             <article
               className="cities__place-card place-card"
-              style={
-                Object {
-                  "opacity": "0.6",
-                }
-              }
             >
-              <div
-                className="place-card__mark"
-              >
-                <span>
-                  Premium
-                </span>
-              </div>
+              
               <div
                 className="cities__image-wrapper place-card__image-wrapper"
               >
@@ -296,7 +285,7 @@ exports[`App is rendered correctly 1`] = `
                     alt="Place image"
                     className="place-card__image"
                     height="200"
-                    src="https://es31-server.appspot.com/six-cities/static/hotel/15.jpg"
+                    src="img/room.jpg"
                     width="260"
                   />
                 </a>
@@ -314,118 +303,7 @@ exports[`App is rendered correctly 1`] = `
                       className="place-card__price-value"
                     >
                       €
-                      245
-                    </b>
-                    <span
-                      className="place-card__price-text"
-                    >
-                      / night
-                    </span>
-                  </div>
-                  <button
-                    className="place-card__bookmark-button button place-card__bookmark-button--active"
-                    type="button"
-                  >
-                    <svg
-                      className="place-card__bookmark-icon"
-                      height="19"
-                      width="18"
-                    >
-                      <use
-                        xlinkHref="#icon-bookmark"
-                      />
-                    </svg>
-                    <span
-                      className="visually-hidden"
-                    >
-                      In
-                       bookmarks
-                    </span>
-                  </button>
-                </div>
-                <div
-                  className="place-card__rating rating"
-                >
-                  <div
-                    className="place-card__stars rating__stars"
-                  >
-                    <span
-                      style={
-                        Object {
-                          "width": "93%",
-                        }
-                      }
-                    />
-                    <span
-                      className="visually-hidden"
-                    >
-                      Rating
-                    </span>
-                  </div>
-                </div>
-                <h2
-                  className="place-card__name"
-                  onClick={[Function]}
-                >
-                  <a
-                    href="#"
-                    onClick={[Function]}
-                  >
-                    Amazing and Extremely Central Flat
-                  </a>
-                </h2>
-                <p
-                  className="place-card__type"
-                >
-                  room
-                </p>
-              </div>
-            </article>
-            <article
-              className="cities__place-card place-card"
-              style={
-                Object {
-                  "opacity": "",
-                }
-              }
-            >
-              <div
-                className="place-card__mark"
-              >
-                <span>
-                  Premium
-                </span>
-              </div>
-              <div
-                className="cities__image-wrapper place-card__image-wrapper"
-              >
-                <a
-                  href="#"
-                  onClick={[Function]}
-                >
-                  <img
-                    alt="Place image"
-                    className="place-card__image"
-                    height="200"
-                    src="https://es31-server.appspot.com/six-cities/static/hotel/9.jpg"
-                    width="260"
-                  />
-                </a>
-              </div>
-              <div
-                className="place-card__info"
-              >
-                <div
-                  className="place-card__price-wrapper"
-                >
-                  <div
-                    className="place-card__price"
-                  >
-                    <b
-                      className="place-card__price-value"
-                    >
-                      €
-                      115
+                      86
                     </b>
                     <span
                       className="place-card__price-text"
@@ -480,26 +358,27 @@ exports[`App is rendered correctly 1`] = `
                 >
                   <a
                     href="#"
-                    onClick={[Function]}
                   >
-                    The Joshua Tree House
+                    Beautiful & luxurious apartment at great location
                   </a>
                 </h2>
                 <p
                   className="place-card__type"
                 >
-                  apartment
+                  Apartment
                 </p>
               </div>
             </article>
             <article
               className="cities__place-card place-card"
-              style={
-                Object {
-                  "opacity": "",
-                }
-              }
             >
+              <div
+                className="place-card__mark"
+              >
+                <span>
+                  Premium
+                </span>
+              </div>
               <div
                 className="cities__image-wrapper place-card__image-wrapper"
               >
@@ -511,7 +390,7 @@ exports[`App is rendered correctly 1`] = `
                     alt="Place image"
                     className="place-card__image"
                     height="200"
-                    src="https://es31-server.appspot.com/six-cities/static/hotel/3.jpg"
+                    src="img/room.jpg"
                     width="260"
                   />
                 </a>
@@ -529,7 +408,106 @@ exports[`App is rendered correctly 1`] = `
                       className="place-card__price-value"
                     >
                       €
-                      199
+                      93
+                    </b>
+                    <span
+                      className="place-card__price-text"
+                    >
+                      / night
+                    </span>
+                  </div>
+                  <button
+                    className="place-card__bookmark-button button "
+                    type="button"
+                  >
+                    <svg
+                      className="place-card__bookmark-icon"
+                      height="19"
+                      width="18"
+                    >
+                      <use
+                        xlinkHref="#icon-bookmark"
+                      />
+                    </svg>
+                    <span
+                      className="visually-hidden"
+                    >
+                      To
+                       bookmarks
+                    </span>
+                  </button>
+                </div>
+                <div
+                  className="place-card__rating rating"
+                >
+                  <div
+                    className="place-card__stars rating__stars"
+                  >
+                    <span
+                      style={
+                        Object {
+                          "width": "93%",
+                        }
+                      }
+                    />
+                    <span
+                      className="visually-hidden"
+                    >
+                      Rating
+                    </span>
+                  </div>
+                </div>
+                <h2
+                  className="place-card__name"
+                  onClick={[Function]}
+                >
+                  <a
+                    href="#"
+                  >
+                    Wood and stone place
+                  </a>
+                </h2>
+                <p
+                  className="place-card__type"
+                >
+                  Apartment
+                </p>
+              </div>
+            </article>
+            <article
+              className="cities__place-card place-card"
+            >
+              
+              <div
+                className="cities__image-wrapper place-card__image-wrapper"
+              >
+                <a
+                  href="#"
+                  onClick={[Function]}
+                >
+                  <img
+                    alt="Place image"
+                    className="place-card__image"
+                    height="200"
+                    src="img/room.jpg"
+                    width="260"
+                  />
+                </a>
+              </div>
+              <div
+                className="place-card__info"
+              >
+                <div
+                  className="place-card__price-wrapper"
+                >
+                  <div
+                    className="place-card__price"
+                  >
+                    <b
+                      className="place-card__price-value"
+                    >
+                      €
+                      115
                     </b>
                     <span
                       className="place-card__price-text"
@@ -584,15 +562,14 @@ exports[`App is rendered correctly 1`] = `
                 >
                   <a
                     href="#"
-                    onClick={[Function]}
                   >
-                    Waterfront with extraordinary view
+                    Nice, cozy, warm big bed apartment
                   </a>
                 </h2>
                 <p
                   className="place-card__type"
                 >
-                  house
+                  Private room
                 </p>
               </div>
             </article>

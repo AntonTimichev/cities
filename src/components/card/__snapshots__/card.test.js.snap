@@ -3,19 +3,8 @@
 exports[`Card is rendered correctly 1`] = `
 <article
   className="cities__place-card place-card"
-  style={
-    Object {
-      "opacity": "",
-    }
-  }
 >
-  <div
-    className="place-card__mark"
-  >
-    <span>
-      Premium
-    </span>
-  </div>
+  
   <div
     className="cities__image-wrapper place-card__image-wrapper"
   >
@@ -27,7 +16,7 @@ exports[`Card is rendered correctly 1`] = `
         alt="Place image"
         className="place-card__image"
         height="200"
-        src="https://es31-server.appspot.com/six-cities/static/hotel/15.jpg"
+        src="img/room.jpg"
         width="260"
       />
     </a>
@@ -45,7 +34,7 @@ exports[`Card is rendered correctly 1`] = `
           className="place-card__price-value"
         >
           €
-          245
+          86
         </b>
         <span
           className="place-card__price-text"
@@ -100,15 +89,14 @@ exports[`Card is rendered correctly 1`] = `
     >
       <a
         href="#"
-        onClick={[Function]}
       >
-        Amazing and Extremely Central Flat
+        Beautiful & luxurious apartment at great location
       </a>
     </h2>
     <p
       className="place-card__type"
     >
-      room
+      Apartment
     </p>
   </div>
 </article>
