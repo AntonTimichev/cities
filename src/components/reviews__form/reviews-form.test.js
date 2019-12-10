@@ -5,6 +5,7 @@ import ReviewsForm from "./reviews__form.jsx";
 
 it(`ReviewsForm is rendered correctly`, () => {
   const tree = renderer.create(<ReviewsForm
+    isSubmit={true}
     onRatingClick={jest.fn()}
     onFormSubmit={jest.fn()}
     onInputBlur={jest.fn()}

@@ -1,6 +1,6 @@
 import OfferModel from "../../data-models/offer-model.js";
 import ReviewModel from "../../data-models/review-model.js";
-import {getRandomInteger} from "../../utils.js";
+import {getData} from "./selectors.js";
 
 const initialState = {
   currentCity: ``,
@@ -28,9 +28,11 @@ const Operation = {
       })
       .then((data) => {
         data = [...new Set(data.map((offer) => offer.city.name))];
-        dispatch(ActionCreator.setCurrentCity(data[getRandomInteger(0, data.length - 1)]));
+        dispatch(ActionCreator.setCurrentCity(data[0]));
       })
-      .then(() => dispatch(ActionCreator.loadComplete()));
+      .then(() => dispatch(ActionCreator.loadComplete()))
+      // eslint-disable-next-line no-console
+      .catch((e) => console.error(e.message));
   },
   loadReviews: (id) => (dispatch, _getState, api) => {
     api.get(`comments/${id}`)
@@ -42,14 +44,30 @@ const Operation = {
       })
       .catch(() => dispatch(ActionCreator.loadReviews([])));
   },
-  postReview: (data, id) => (dispatch, _getState, api) => {
-    api.post(`/comments/${id}`, data)
+  postReview: (review, id) => (dispatch, _getState, api) => {
+    api.post(`/comments/${id}`, review)
       .then((response) => {
         if (response.status === 200) {
           const parsedData = ReviewModel.parseToReviews(response.data);
           dispatch(ActionCreator.loadReviews(parsedData));
         }
-      });
+      })
+      // eslint-disable-next-line no-console
+      .catch((e) => console.error(e.message));
+  },
+  addToFavorites: (url) => (dispatch, getState, api) => {
+    api.post(`/favorite/${url}`)
+      .then((response) => {
+        if (response.status === 200) {
+          const currentData = getData(getState());
+          const parsedData = OfferModel.parseToOffer(response.data);
+          const index = currentData.findIndex((item) => item.id === parsedData.id);
+          const newData = [...currentData.slice(0, index), parsedData, ...currentData.slice(index + 1)];
+          dispatch(ActionCreator.loadOffers(newData));
+        }
+      })
+      // eslint-disable-next-line no-console
+      .catch((e) => console.error(e.message));
   }
 };
 

@@ -12,12 +12,18 @@ import withReviewUser from "../../hocs/with-user-review/with-user-review.jsx";
 const NearPlacesWrapped = withActiveItem(NearPlaces);
 const ReviewsFormWrapped = withReviewUser(ReviewsForm);
 
-const Property = ({offerData, reviews, nearOffers, mappedCoords, leaflet, isAuth, postReview}) => {
-  const {images, isPremium, title, rating, price, goods, host, description, maxAdults, bedrooms, location} = offerData;
+const Property = ({offerData, reviews, nearOffers, mappedCoords, leaflet, isAuth, postReview, addToFavorites}) => {
+  const {id, images, isPremium, isFavorite, title, rating, price, goods, host, description, maxAdults, bedrooms, location} = offerData;
+  const bookmarkClass = `property__bookmark-button button ${isFavorite ? `property__bookmark-button--active` : ``}`;
 
   useEffect(() => {
     window.scrollTo(0, 0);
   });
+
+  const handleBookmarkBtnClick = (e) => {
+    e.preventDefault();
+    addToFavorites(`${id}/${Number(!isFavorite)}`);
+  };
 
   return <main className="page__main page__main--property">
     <section className="property">
@@ -31,7 +37,7 @@ const Property = ({offerData, reviews, nearOffers, mappedCoords, leaflet, isAuth
             <h1 className="property__name">
               {title} ({offerData.city.name})
             </h1>
-            <button className="property__bookmark-button button" type="button">
+            <button className={bookmarkClass} type="button" onClick={handleBookmarkBtnClick}>
               <svg className="property__bookmark-icon" width="31" height="33">
                 <use xlinkHref="#icon-bookmark"/>
               </svg>
@@ -99,6 +105,7 @@ const Property = ({offerData, reviews, nearOffers, mappedCoords, leaflet, isAuth
       location={location}
       nearOffers={nearOffers}
       mappedCoords={mappedCoords}
+      onBookmarkBtnClick={addToFavorites}
     />
   </main>;
 };
@@ -113,7 +120,8 @@ Property.propTypes = {
   nearOffers: PropTypes.arrayOf(PropTypes.object).isRequired,
   leaflet: PropTypes.object.isRequired,
   isAuth: PropTypes.bool.isRequired,
-  postReview: PropTypes.func.isRequired
+  postReview: PropTypes.func.isRequired,
+  addToFavorites: PropTypes.func.isRequired
 };
 
 export default Property;

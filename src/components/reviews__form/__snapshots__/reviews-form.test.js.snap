@@ -5,6 +5,7 @@ exports[`ReviewsForm is rendered correctly 1`] = `
   action="#"
   className="reviews__form form"
   method="post"
+  onSubmit={[Function]}
 >
   <label
     className="reviews__label form__label"
@@ -135,7 +136,7 @@ exports[`ReviewsForm is rendered correctly 1`] = `
     className="reviews__textarea form__textarea"
     id="review"
     name="review"
-    onBlur={[MockFunction]}
+    onInput={[MockFunction]}
     placeholder="Tell how was your stay, what you like and what can be improved"
   />
   <div
@@ -160,8 +161,7 @@ exports[`ReviewsForm is rendered correctly 1`] = `
     </p>
     <button
       className="reviews__submit form__submit button"
-      disabled=""
-      onClick={[Function]}
+      disabled={true}
       type="submit"
     >
       Submit

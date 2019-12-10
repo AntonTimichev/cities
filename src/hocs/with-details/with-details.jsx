@@ -48,8 +48,11 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   getReviews: () => {
     dispatch(DataOperation.loadReviews(Number(ownProps.match.params.id)));
   },
-  postReview: (data) => {
-    dispatch(DataOperation.postReview(data, Number(ownProps.match.params.id)));
+  postReview: (review) => {
+    dispatch(DataOperation.postReview(review, Number(ownProps.match.params.id)));
+  },
+  addToFavorites: (path) => {
+    dispatch(DataOperation.addToFavorites(path));
   }
 });
 

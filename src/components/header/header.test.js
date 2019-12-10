@@ -4,7 +4,7 @@ import {MemoryRouter} from 'react-router-dom';
 
 import Header from "./header.jsx";
 
-const user = {
+const userParams = {
   avatar: ``,
   email: ``
 };
@@ -12,7 +12,7 @@ const user = {
 it(`Header is rendered correctly`, () => {
   const tree = renderer.create(<MemoryRouter>
     <Header
-      user={user}
+      userParams={userParams}
     />
   </MemoryRouter>).toJSON();
 

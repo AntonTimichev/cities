@@ -1,13 +1,13 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-const ReviewsForm = ({onRatingClick, onFormSubmit, onInputBlur}) => {
+const ReviewsForm = ({isSubmit, onRatingClick, onFormSubmit, onInputBlur}) => {
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    onFormSubmit();
+    onFormSubmit(e.target);
   };
 
-  return <form className="reviews__form form" action="#" method="post">
+  return <form className="reviews__form form" action="#" method="post" onSubmit={handleFormSubmit}>
     <label className="reviews__label form__label" htmlFor="review">Your review</label>
     <div className="reviews__rating-form form__rating">
       <input className="form__rating-input visually-hidden" name="rating" value="5" id="5-stars" type="radio" onClick={onRatingClick} />
@@ -46,18 +46,19 @@ const ReviewsForm = ({onRatingClick, onFormSubmit, onInputBlur}) => {
       </label>
     </div>
     <textarea className="reviews__textarea form__textarea" id="review" name="review"
-      placeholder="Tell how was your stay, what you like and what can be improved" onBlur={onInputBlur}/>
+      placeholder="Tell how was your stay, what you like and what can be improved" onInput={onInputBlur}/>
     <div className="reviews__button-wrapper">
       <p className="reviews__help">
         To submit review please make sure to set <span className="reviews__star">rating</span> and describe
         your stay with at least <b className="reviews__text-amount">50 characters</b>.
       </p>
-      <button className="reviews__submit form__submit button" type="submit" disabled="" onClick={handleFormSubmit}>Submit</button>
+      <button className="reviews__submit form__submit button" type="submit" disabled={isSubmit}>Submit</button>
     </div>
   </form>;
 };
 
 ReviewsForm.propTypes = {
+  isSubmit: PropTypes.bool.isRequired,
   onRatingClick: PropTypes.func.isRequired,
   onFormSubmit: PropTypes.func.isRequired,
   onInputBlur: PropTypes.func.isRequired

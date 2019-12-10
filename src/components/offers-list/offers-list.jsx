@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import Offer from "../offer/offer.jsx";
 
 const OffersList = (props) => {
-  const {offers, activeItem, onOfferImgClick} = props;
+  const {offers, activeItem, onOfferImgClick, onBookmarkBtnClick} = props;
 
   return <div className="cities__places-list places__list tabs__content">
     {offers.map((offer, i) => {
@@ -15,6 +15,7 @@ const OffersList = (props) => {
         isActive={offer.id === activeItem}
         onOfferImgClick={onOfferImgClick}
         linkName={linkName}
+        onBookmarkBtnClick={onBookmarkBtnClick}
       />;
     })}
   </div>;
@@ -32,5 +33,6 @@ OffersList.propTypes = {
     type: PropTypes.string.isRequired,
   })).isRequired,
   onOfferImgClick: PropTypes.func.isRequired,
-  activeItem: PropTypes.number
+  activeItem: PropTypes.number,
+  onBookmarkBtnClick: PropTypes.func.isRequired
 };

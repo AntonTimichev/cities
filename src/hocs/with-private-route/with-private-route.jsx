@@ -1,30 +1,32 @@
 import React, {PureComponent} from "react";
 import PropTypes from "prop-types";
-import {Route, Redirect} from "react-router-dom";
-import {setClassForBody} from "../../utils";
-import {bodyClasses} from "../../Apperance";
+import {Redirect} from "react-router-dom";
+// import {connect} from "react-redux";
+// import {compose} from "recompose";
+//
+// import {getIsAuth} from "../../reducer/user/selectors";
 
 const withPrivateRoute = (Component) => {
   class WithPrivateRoute extends PureComponent {
+
     render() {
-      const {path, isAuth, classKey} = this.props;
-      return <Route path={path} render={() => {
-        setClassForBody(bodyClasses[classKey]);
-        return isAuth
-          ? <Component />
-          : <Redirect to='/login' />;
-      }
-      } />;
+      const {isAuth} = this.props;
+      return isAuth
+        ? <Component />
+        : <Redirect to='/login' />;
     }
   }
 
   WithPrivateRoute.propTypes = {
-    path: PropTypes.string.isRequired,
-    isAuth: PropTypes.bool.isRequired,
-    classKey: PropTypes.string.isRequired
+    isAuth: PropTypes.bool.isRequired
   };
 
   return WithPrivateRoute;
 };
 
+// const mapStateToProps = (state, ownProps) => Object.assign({}, ownProps, {
+//   isAuth: getIsAuth(state)
+// });
+
 export default withPrivateRoute;
+// export default compose(connect(mapStateToProps), withPrivateRoute);

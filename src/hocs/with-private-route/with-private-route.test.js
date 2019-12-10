@@ -13,23 +13,19 @@ const WithPrivateRoute = withPrivateRoute(MockComponent);
 it(`renders a redirect when the user is not authorised`, () => {
   const wrapper = mount(
       <MemoryRouter initialEntries={[`/privateComponent`]}>
-        <WithPrivateRoute path='/privateComponent' isAuth={false} classKey={`favorite`} />
+        <WithPrivateRoute path='/privateComponent' isAuth={false} />
       </MemoryRouter>
   );
-  expect(
-      wrapper.find(`Router`).prop(`history`).location.pathname
-  ).toEqual(`/login`);
+  expect(wrapper.find(`Redirect`).length).toEqual(1);
   wrapper.unmount();
 });
 
 it(`renders a component when the user is authorised`, () => {
   const wrapper = mount(
       <MemoryRouter initialEntries={[`/privateComponent`]}>
-        <WithPrivateRoute path='/privateComponent' isAuth={true} classKey={`favorite`} />
+        <WithPrivateRoute path='/privateComponent' isAuth={true} />
       </MemoryRouter>
   );
-  expect(
-      wrapper.find(`Router`).prop(`history`).location.pathname
-  ).toEqual(`/privateComponent`);
+  expect(wrapper.find(`Redirect`).length).toEqual(0);
   wrapper.unmount();
 });

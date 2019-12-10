@@ -1,3 +1,4 @@
+
 const initialState = {
   isAuthorizationRequired: false,
   user: null
@@ -5,48 +6,58 @@ const initialState = {
 
 const ActionType = {
   REQUIRE_AUTHORIZATION: `REQUIRE_AUTHORIZATION`,
-  AUTHENTICATE_USER: `AUTHENTICATE_USER`
+  LOGIN_USER: `LOGIN_USER`,
+  LOGOUT_USER: `LOGOUT_USER`
 };
 
 const Operation = {
-  authenticateUser: (user) => (dispatch, _getState, api) => {
+  loginUser: (user, history) => (dispatch, _getState, api) => {
     api.post(`/login`, user)
       .then((response) => {
         if (response.status === 200) {
-          dispatch(ActionCreator.setUser(response.data));
+          dispatch(ActionCreator.loginUser(response.data));
+          history.goBack();
         }
-      });
+        history.push(`/`);
+      })
+      // eslint-disable-next-line no-console
+      .catch((e) => console.log(e.message));
   },
   checkAuth: () => (dispatch, _getState, api) => {
     api.get(`/login`)
       .then((response) => {
         if (response.status === 200) {
-          dispatch(ActionCreator.setUser(response.data));
+          dispatch(ActionCreator.loginUser(response.data));
         }
+      })
+      .catch((e) => {
+        dispatch(ActionCreator.loginUser(null));
+        // eslint-disable-next-line no-console
+        console.error(e.message);
       });
   }
 };
 
 const ActionCreator = {
-  requireAuthorization: (bool) => ({
-    type: ActionType.REQUIRE_AUTHORIZATION,
-    payload: bool,
-  }),
-  setUser: (data) => ({
-    type: ActionType.AUTHENTICATE_USER,
+  loginUser: (data) => ({
+    type: ActionType.LOGIN_USER,
     payload: data
+  }),
+  logoutUser: () => ({
+    type: ActionType.LOGOUT_USER,
+    payload: null
   })
 };
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case ActionType.AUTHENTICATE_USER:
+    case ActionType.LOGIN_USER:
       return Object.assign({}, state, {
         user: action.payload
       });
-    case ActionType.REQUIRE_AUTHORIZATION:
+    case ActionType.LOGOUT_USER:
       return Object.assign({}, state, {
-        isAuthorizationRequired: action.payload
+        user: action.payload
       });
   }
   return state;

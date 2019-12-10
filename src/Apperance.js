@@ -29,10 +29,10 @@ export const sortingParams = {
 };
 
 export const bodyClasses = {
-  login: `page page--gray page--login`,
-  offer: `page`,
-  favorite: `page`,
-  main: `page page--gray page--main`
+  '/login': `page page--gray page--login`,
+  '/offer': `page`,
+  '/favorite': `page`,
+  '/': `page page--gray page--main`
 };
 
 export const directionMap = {
@@ -43,5 +43,15 @@ export const directionMap = {
   lt: {
     asc: -1,
     desc: 1
+  }
+};
+
+export const paths = {
+  main: `/`,
+  other: `*`,
+  login: `/login`,
+  offerId: `/offer/:id`,
+  private: {
+    favorite: `/favorite`
   }
 };

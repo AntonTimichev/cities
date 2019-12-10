@@ -28,10 +28,10 @@ const withLoginUser = (Component) => {
     }
 
     _handleFormSubmit() {
-      const {setUser} = this.props;
+      const {loginUser} = this.props;
       const {email, password, isInvalidMail, isInvalidPass} = this.state;
       if (email && password && !isInvalidMail && !isInvalidPass) {
-        setUser({email, password});
+        loginUser({email, password});
       }
     }
 
@@ -49,7 +49,7 @@ const withLoginUser = (Component) => {
   }
 
   WithLoginUser.propTypes = {
-    setUser: PropTypes.func.isRequired
+    loginUser: PropTypes.func.isRequired
   };
 
   return WithLoginUser;

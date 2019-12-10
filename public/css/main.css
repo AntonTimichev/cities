@@ -1138,17 +1138,17 @@ img {
   stroke: #4481c3
 }
 
-.property__bookmark-button--active .place-card__bookmark-icon {
-  stroke: #4481c3;
-  fill: #4481c3
-}
-
 .property__bookmark-icon {
   fill: none;
   stroke: #b8b8b8;
   stroke-width: 2;
   -webkit-transition: fill .3s, stroke .3s;
   transition: fill .3s, stroke .3s
+}
+
+.property__bookmark-button--active .property__bookmark-icon {
+  stroke: #4481c3;
+  fill: #4481c3
 }
 
 .property__rating {

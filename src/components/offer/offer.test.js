@@ -14,6 +14,7 @@ it(`Offer is rendered correctly`, () => {
       isActive={false}
       linkName={`offer/1`}
       onOfferImgClick={jest.fn()}
+      onBookmarkBtnClick={jest.fn()}
     />
   </MemoryRouter>).toJSON();
 

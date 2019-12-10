@@ -1,4 +1,4 @@
-import {bodyClasses, directionMap} from "./Apperance";
+import {bodyClasses, directionMap} from "./apperance";
 
 const doSort = (A, B, property, direction = `asc`) => {
   const a = A[property];
@@ -21,5 +21,9 @@ export const getRandomInteger = (min, max) => {
   return Math.floor(randomNumber);
 };
 
-export const setClassForBody = (key) => document.body.setAttribute(`class`, bodyClasses[key]);
+export const setClassForBody = ({pathname}) => {
+  const index = pathname.indexOf(`/`, 1);
+  const keyClass = pathname.slice(0, index === -1 ? pathname.length : index);
+  document.body.setAttribute(`class`, bodyClasses[keyClass]);
+};
 

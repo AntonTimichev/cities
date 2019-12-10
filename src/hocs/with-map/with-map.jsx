@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import PropTypes from "prop-types";
 
-import {ICON_SIZE} from "../../Apperance";
+import {ICON_SIZE} from "../../apperance";
 
 const withMap = (className) => {
   class WithMap extends Component {

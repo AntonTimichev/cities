@@ -4,12 +4,12 @@ import PropTypes from "prop-types";
 import PlacesSorting from "../places-sorting/places-sorting.jsx";
 import OffersList from "../offers-list/offers-list.jsx";
 import withMap from "../../hocs/with-map/with-map.jsx";
-import {citiesMap, optionsOfSorting} from "../../Apperance.js";
+import {citiesMap, optionsOfSorting} from "../../apperance.js";
 
 const MapWrapped = withMap(citiesMap);
 
 const Main = (props) => {
-  const {offers, currentCity, currentOption, isOpen, activeItem, onItemClick, mappedCoords, location, leaflet, setKeySorting, onToggleItemClick} = props;
+  const {offers, currentCity, currentOption, isOpen, activeItem, onItemClick, mappedCoords, location, leaflet, setKeySorting, onToggleItemClick, addToFavorites} = props;
 
   return <div className="cities__places-wrapper">
     <div className="cities__places-container container">
@@ -27,6 +27,7 @@ const Main = (props) => {
           activeItem={activeItem}
           offers={offers}
           onOfferImgClick={onItemClick}
+          onBookmarkBtnClick={addToFavorites}
         />
       </section>
       <div className="cities__right-section">
@@ -63,7 +64,8 @@ Main.propTypes = {
   currentOption: PropTypes.string.isRequired,
   isOpen: PropTypes.bool.isRequired,
   setKeySorting: PropTypes.func.isRequired,
-  onToggleItemClick: PropTypes.func.isRequired
+  onToggleItemClick: PropTypes.func.isRequired,
+  addToFavorites: PropTypes.func.isRequired
 };
 
 export default Main;

@@ -16,31 +16,37 @@ const withReviewUser = (Component) => {
     }
 
     render() {
+      const {rating, comment} = this.state;
       return <Component
         {...this.props}
+        isSubmit={!(rating && comment)}
         onRatingClick={this._handleRatingClick}
         onFormSubmit={this._handleFormSubmit}
         onInputBlur={this._handleInputBlur}
       />;
     }
 
-    _handleFormSubmit() {
+    _handleFormSubmit(form) {
       const {postReview} = this.props;
       const {rating, comment} = this.state;
       if (rating && comment) {
-        postReview({rating, comment});
+        this.setState({comment: ``, rating: ``}, () => {
+          postReview({rating, comment});
+          form.reset();
+        });
       }
     }
 
     _handleInputBlur(e) {
       let {value} = e.target;
-      if (!value || value.length < 50) {
-        return;
-      }
-      if (value.length > 200) {
-        value = value.slice(0, 200);
-      }
-      this.setState({comment: value});
+      this.setState({comment: value}, () => {
+        if (!value || value.length < 50) {
+          this.setState({comment: ``});
+        }
+        if (value.length > 200) {
+          value = value.slice(0, 200);
+        }
+      });
     }
 
     _handleRatingClick(e) {

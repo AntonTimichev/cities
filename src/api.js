@@ -11,9 +11,9 @@ export const createAPI = (onLoginFail) => {
   const onFail = (err) => {
     if (err.response.request.responseURL.indexOf(`/login`) === -1 && err.response.status === 403) {
       onLoginFail();
-      return;
+      return Promise.reject(err);
     }
-    throw err;
+    return Promise.reject(err);
   };
 
   api.interceptors.response.use(onSuccess, onFail);

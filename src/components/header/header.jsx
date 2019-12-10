@@ -2,8 +2,8 @@ import React from "react";
 import PropTypes from "prop-types";
 import {Link} from "react-router-dom";
 
-const Header = ({user}) => {
-  const {avatar, email} = user;
+const Header = ({userParams}) => {
+  const {avatar, email} = userParams;
 
   return <React.Fragment>
     <div style={{display: `none`}}>
@@ -49,7 +49,7 @@ const Header = ({user}) => {
 };
 
 Header.propTypes = {
-  user: PropTypes.object.isRequired
+  userParams: PropTypes.object.isRequired
 };
 
 export default Header;

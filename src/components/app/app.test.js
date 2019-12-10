@@ -12,6 +12,9 @@ const mock = {
   currentCity: `Amsterdam`,
   onCityNameClick: jest.fn(),
   onItemClick: jest.fn(),
+  addToFavorites: jest.fn(),
+  onBookmarkBtnClick: jest.fn(),
+  setKeySorting: jest.fn(),
   activeItem: -1,
   location: {
     latitude: 45.325654,
@@ -36,7 +39,7 @@ const mock = {
 };
 
 it(`App is rendered correctly`, () => {
-  const {offers, cityNames, currentCity, onCityNameClick, location, mappedCoords, activeItem, onItemClick, leaflet} = mock;
+  const {offers, cityNames, currentCity, onCityNameClick, location, mappedCoords, activeItem, onItemClick, leaflet, onBookmarkBtnClick, addToFavorites, setKeySorting} = mock;
   const tree = renderer.create(<MemoryRouter>
     <App
       offers={offers}
@@ -48,8 +51,10 @@ it(`App is rendered correctly`, () => {
       onCityNameClick={onCityNameClick}
       onItemClick={onItemClick}
       currentOption={`dd`}
-      setKeySorting={jest.fn()}
+      setKeySorting={setKeySorting}
       leaflet={leaflet}
+      onBookmarkBtnClick={onBookmarkBtnClick}
+      addToFavorites={addToFavorites}
     />
   </MemoryRouter>).toJSON();
 

@@ -2,13 +2,18 @@ import React from "react";
 import PropTypes from "prop-types";
 import {Link} from "react-router-dom";
 
-const Offer = ({offer, isActive, onOfferImgClick, linkName}) => {
+const Offer = ({offer, isActive, onOfferImgClick, linkName, onBookmarkBtnClick}) => {
   const {title, previewImage, isPremium, price, isFavorite, type, id, rating} = offer;
   const btnClass = `place-card__bookmark-button button ${isFavorite ? `place-card__bookmark-button--active` : ``}`;
 
   const handleOfferImgClick = (e) => {
     e.preventDefault();
     onOfferImgClick(isActive ? -1 : id);
+  };
+
+  const handleBookmarkBtnClick = (e) => {
+    e.preventDefault();
+    onBookmarkBtnClick(`${id}/${Number(!isFavorite)}`);
   };
 
   return <article className="cities__place-card place-card" style={{opacity: `${isActive ? `0.6` : ``}`}}>
@@ -26,7 +31,7 @@ const Offer = ({offer, isActive, onOfferImgClick, linkName}) => {
           <b className="place-card__price-value">&euro;{price}</b>
           <span className="place-card__price-text">&#47;&nbsp;night</span>
         </div>
-        <button className={btnClass} type="button">
+        <button className={btnClass} type="button" onClick={handleBookmarkBtnClick}>
           <svg className="place-card__bookmark-icon" width="18" height="19">
             <use xlinkHref="#icon-bookmark" />
           </svg>
@@ -58,7 +63,8 @@ Offer.propTypes = {
   }).isRequired,
   isActive: PropTypes.bool.isRequired,
   linkName: PropTypes.string.isRequired,
-  onOfferImgClick: PropTypes.func.isRequired
+  onOfferImgClick: PropTypes.func.isRequired,
+  onBookmarkBtnClick: PropTypes.func.isRequired
 };
 
 export default Offer;

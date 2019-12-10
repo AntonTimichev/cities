@@ -11,6 +11,7 @@ it(`OffersList is rendered correctly`, () => {
       offers={OffersMock}
       activeItem={0}
       onOfferImgClick={jest.fn()}
+      onBookmarkBtnClick={jest.fn()}
     />
   </MemoryRouter>).toJSON();
 

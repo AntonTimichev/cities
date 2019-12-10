@@ -8,16 +8,20 @@ import {compose} from "recompose";
 import history from "./history.js";
 import reducer from "./reducer/index.js";
 import {Operation as DataOperation} from "./reducer/data/data.js";
-import {Operation as UserOperation} from "./reducer/user/user.js";
+import {Operation as UserOperation, ActionCreator} from "./reducer/user/user.js";
 import App from "./components/app/app.jsx";
 import {createAPI} from "./api.js";
 import withSwitchPages from "./hocs/with-switch-pages/with-switch-pages.jsx";
 import withActiveItem from "./hocs/with-active-item/with-active-item.jsx";
+import withHeader from "./hocs/with-header/with-header.jsx";
 
-const AppWrapped = withSwitchPages(withActiveItem(App));
+const AppWrapped = withSwitchPages(withHeader(withActiveItem(App)));
 
 const init = () => {
-  const api = createAPI(() => history.push(`/login`));
+  const api = createAPI(() => {
+    store.dispatch(ActionCreator.logoutUser());
+    history.push(`/login`);
+  });
   const store = createStore(
       reducer,
       compose(
@@ -25,9 +29,9 @@ const init = () => {
           window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
       )
   );
-
   store.dispatch(DataOperation.loadOffers());
   store.dispatch(UserOperation.checkAuth());
+
   ReactDOM.render(
       <Provider store={store}>
         <AppWrapped />

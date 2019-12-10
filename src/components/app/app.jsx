@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import Main from "../main/main.jsx";
 import MainEmpty from "../main-empty/main-empty.jsx";
 import CitiesList from "../cities-list/cities-list.jsx";
-import {ActionCreator} from "../../reducer/data/data";
+import {ActionCreator, Operation as DataOperation} from "../../reducer/data/data";
 import {
   getCurrentCityName,
   getCurrentOption,
@@ -22,7 +22,7 @@ class App extends PureComponent {
       isOpen: false
     };
 
-    this._handleOfferNameClick = this._handleOfferNameClick.bind(this);
+    this._handleCityNameClick = this._handleCityNameClick.bind(this);
     this._handleToggleViewOptions = this._handleToggleViewOptions.bind(this);
   }
 
@@ -38,7 +38,7 @@ class App extends PureComponent {
           <CitiesList
             currentCity={currentCity}
             cityNames={cityNames}
-            onCityNameClick={this._handleOfferNameClick}
+            onCityNameClick={this._handleCityNameClick}
           />
         </section>
       </div>
@@ -55,7 +55,7 @@ class App extends PureComponent {
     </main>;
   }
 
-  _handleOfferNameClick(cityName) {
+  _handleCityNameClick(cityName) {
     const {onCityNameClick, onItemClick} = this.props;
     onItemClick(-1);
     onCityNameClick(cityName);
@@ -90,6 +90,9 @@ const mapDispatchToProps = (dispatch) => ({
   },
   setKeySorting: (key) => {
     dispatch(ActionCreator.setKeySorting(key));
+  },
+  addToFavorites: (path) => {
+    dispatch(DataOperation.addToFavorites(path));
   }
 });
 
