@@ -1,19 +1,14 @@
 import React from "react";
 import PropTypes from "prop-types";
-import {Link} from "react-router-dom";
 
-const Offer = ({offer, isActive, onOfferImgClick, linkName, onBookmarkBtnClick}) => {
-  const {title, previewImage, isPremium, price, isFavorite, type, id, rating} = offer;
-  const btnClass = `place-card__bookmark-button button ${isFavorite ? `place-card__bookmark-button--active` : ``}`;
+import OfferInfo from "../offer-info/offer-info.jsx";
+
+const Offer = ({offer, isActive, onItemClick, ...props}) => {
+  const {previewImage, isPremium, id} = offer;
 
   const handleOfferImgClick = (e) => {
     e.preventDefault();
-    onOfferImgClick(isActive ? -1 : id);
-  };
-
-  const handleBookmarkBtnClick = (e) => {
-    e.preventDefault();
-    onBookmarkBtnClick(`${id}/${Number(!isFavorite)}`);
+    onItemClick(isActive ? -1 : id);
   };
 
   return <article className="cities__place-card place-card" style={{opacity: `${isActive ? `0.6` : ``}`}}>
@@ -26,28 +21,10 @@ const Offer = ({offer, isActive, onOfferImgClick, linkName, onBookmarkBtnClick})
       </a>
     </div>
     <div className="place-card__info">
-      <div className="place-card__price-wrapper">
-        <div className="place-card__price">
-          <b className="place-card__price-value">&euro;{price}</b>
-          <span className="place-card__price-text">&#47;&nbsp;night</span>
-        </div>
-        <button className={btnClass} type="button" onClick={handleBookmarkBtnClick}>
-          <svg className="place-card__bookmark-icon" width="18" height="19">
-            <use xlinkHref="#icon-bookmark" />
-          </svg>
-          <span className="visually-hidden">{isFavorite ? `In` : `To`} bookmarks</span>
-        </button>
-      </div>
-      <div className="place-card__rating rating">
-        <div className="place-card__stars rating__stars">
-          <span style={{width: `${20 * Math.round(rating)}%`}} />
-          <span className="visually-hidden">Rating</span>
-        </div>
-      </div>
-      <h2 className="place-card__name">
-        <Link to={linkName} >{title}</Link>
-      </h2>
-      <p className="place-card__type">{type}</p>
+      <OfferInfo
+        {...props}
+        offer={offer}
+      />
     </div>
   </article>;
 };
@@ -61,10 +38,8 @@ Offer.propTypes = {
     isFavorite: PropTypes.bool.isRequired,
     type: PropTypes.string.isRequired,
   }).isRequired,
-  isActive: PropTypes.bool.isRequired,
-  linkName: PropTypes.string.isRequired,
-  onOfferImgClick: PropTypes.func.isRequired,
-  onBookmarkBtnClick: PropTypes.func.isRequired
+  isActive: PropTypes.bool,
+  onItemClick: PropTypes.func
 };
 
 export default Offer;

@@ -22,11 +22,6 @@ const withMap = (className) => {
 
     componentDidMount() {
       this._initMap();
-      if (this._location) {
-        setTimeout(() => {
-          this._location.invalidateSize();
-        }, 200);
-      }
     }
 
     shouldComponentUpdate(nextProps) {

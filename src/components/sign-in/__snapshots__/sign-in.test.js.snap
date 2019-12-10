@@ -29,7 +29,7 @@ exports[`SignIn is rendered correctly 1`] = `
             E-mail
           </label>
           <input
-            className="login__input form__input"
+            className="login__input form__input "
             name="email"
             onBlur={[MockFunction]}
             placeholder="Email"
@@ -51,7 +51,7 @@ exports[`SignIn is rendered correctly 1`] = `
             Password
           </label>
           <input
-            className="login__input form__input"
+            className="login__input form__input "
             name="password"
             onBlur={[MockFunction]}
             placeholder="Password"
@@ -81,7 +81,8 @@ exports[`SignIn is rendered correctly 1`] = `
       >
         <a
           className="locations__item-link"
-          href="#"
+          href="/"
+          onClick={[Function]}
         >
           <span>
             Amsterdam

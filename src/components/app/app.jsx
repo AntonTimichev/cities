@@ -5,7 +5,8 @@ import PropTypes from "prop-types";
 import Main from "../main/main.jsx";
 import MainEmpty from "../main-empty/main-empty.jsx";
 import CitiesList from "../cities-list/cities-list.jsx";
-import {ActionCreator, Operation as DataOperation} from "../../reducer/data/data";
+
+import {ActionCreator} from "../../reducer/data/data.js";
 import {
   getCurrentCityName,
   getCurrentOption,
@@ -19,7 +20,7 @@ class App extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      isOpen: false
+      isOpenFilter: false
     };
 
     this._handleCityNameClick = this._handleCityNameClick.bind(this);
@@ -28,7 +29,7 @@ class App extends PureComponent {
 
   render() {
     const {offers, currentCity, cityNames} = this.props;
-    const {isOpen} = this.state;
+    const {isOpenFilter} = this.state;
     const mainClassName = `page__main page__main--index ${offers.length ? `` : `page__main--index-empty`}`;
 
     return <main className={mainClassName}>
@@ -46,7 +47,7 @@ class App extends PureComponent {
         ? <Main
           {...this.props}
           offers={offers}
-          isOpen={isOpen}
+          isOpenFilter={isOpenFilter}
           onToggleItemClick={this._handleToggleViewOptions}
           currentCity={currentCity}
         />
@@ -59,11 +60,11 @@ class App extends PureComponent {
     const {onCityNameClick, onItemClick} = this.props;
     onItemClick(-1);
     onCityNameClick(cityName);
-    this.setState({isOpen: false});
+    this.setState({isOpenFilter: false});
   }
 
   _handleToggleViewOptions() {
-    this.setState({isOpen: !this.state.isOpen});
+    this.setState({isOpenFilter: !this.state.isOpenFilter});
   }
 }
 
@@ -81,18 +82,12 @@ const mapStateToProps = (state, ownProps) => Object.assign({}, ownProps, {
   currentCity: getCurrentCityName(state),
   cityNames: getCityNames(state),
   location: getCurrentCityLocation(state),
-  mappedCoords: getCityOffersCoords(state)
+  mappedCoords: getCityOffersCoords(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  onCityNameClick: (cityName) => {
-    dispatch(ActionCreator.setCurrentCity(cityName));
-  },
   setKeySorting: (key) => {
     dispatch(ActionCreator.setKeySorting(key));
-  },
-  addToFavorites: (path) => {
-    dispatch(DataOperation.addToFavorites(path));
   }
 });
 

@@ -10,10 +10,15 @@ const getMappedCoords = (offers) => offers.map((offer) => ({
   position: [offer.location.latitude, offer.location.longitude]
 }));
 const getKeySorting = (state) => state[NAME_SPACE].keySorting;
+
 export const getData = (state) => state[NAME_SPACE].data;
 export const getOfferData = (state, id) => state[NAME_SPACE].data.find((offer) => offer.id === id);
 export const getIsLoaded = (state) => state[NAME_SPACE].isLoaded;
-export const getCurrentCityName = (state, id) => id ? getOfferData(state, id).city.name : state[NAME_SPACE].currentCity;
+export const getCurrentCityName = (state, id) =>
+  id
+    ? getOfferData(state, id).city.name
+    : state[NAME_SPACE].currentCity;
+
 export const getCurrentCityLocation = createSelector(
     getCurrentCityName,
     getData,
@@ -61,11 +66,10 @@ export const getNearOffersCoords = createSelector(
     getNearOffers,
     getMappedCoords
 );
-export const getCurrentReviews = (state) => state[NAME_SPACE].reviews;
 export const getCurrentOption = (state) => optionsOfSorting[getKeySorting(state)];
 export const getSortedOffers = createSelector(
     getCurrentCityOffers,
     getKeySorting,
     (offers, key) => sortingParams[key] ? [...offers].sort(createSorter(sortingParams[key])) : offers
 );
-
+export const getLoadingErrorOffers = (state) => state[NAME_SPACE].loadingErrorOffers;

@@ -4,12 +4,8 @@ import PropTypes from "prop-types";
 import ReviewItem from "../review-item/review-item.jsx";
 
 const ReviewsList = ({reviews}) => {
-  const sortedReviews = reviews.sort((a, b) => {
-    return new Date(b.date).getTime() - new Date(a.date).getTime();
-  });
-
   return <ul className="reviews__list">
-    {sortedReviews.map((review, i) => <ReviewItem key={i} review={review} />)}
+    {reviews.map((review, i) => <ReviewItem key={i} review={review} />)}
   </ul>;
 };
 

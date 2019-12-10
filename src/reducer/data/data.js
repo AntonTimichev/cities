@@ -1,73 +1,42 @@
-import OfferModel from "../../data-models/offer-model.js";
-import ReviewModel from "../../data-models/review-model.js";
-import {getData} from "./selectors.js";
 
 const initialState = {
   currentCity: ``,
   data: [],
   isLoaded: false,
   keySorting: 0,
-  reviews: []
+  loadingErrorOffers: ``
 };
 
 const ActionType = {
   SET_CURRENT_CITY: `SET_CURRENT_CITY`,
   LOAD_OFFERS: `LOAD_OFFERS`,
   LOAD_COMPLETE: `LOAD_COMPLETE`,
-  LOAD_REVIEWS: `LOAD_REVIEWS`,
-  SET_KEY_SORTING: `SET_KEY_SORTING`
+  SET_KEY_SORTING: `SET_KEY_SORTING`,
+  GET_FAVORITES: `GET_FAVORITES`,
+  LOADING_ERROR_OFFERS: `LOADING_ERROR_OFFERS`
 };
 
 const Operation = {
-  loadOffers: () => (dispatch, _getState, api) => {
-    api.get(`/hotels`)
-      .then((response) => {
-        const parsedData = OfferModel.parseToOffers(response.data);
-        dispatch(ActionCreator.loadOffers(parsedData));
-        return parsedData;
-      })
-      .then((data) => {
-        data = [...new Set(data.map((offer) => offer.city.name))];
-        dispatch(ActionCreator.setCurrentCity(data[0]));
-      })
-      .then(() => dispatch(ActionCreator.loadComplete()))
-      // eslint-disable-next-line no-console
-      .catch((e) => console.error(e.message));
+  loadOffers: () => async (dispatch, _getState, apiProvider) => {
+    try {
+      const {data, cityNames} = await apiProvider.loadOffers();
+      dispatch(ActionCreator.loadingErrorOffers(``));
+      dispatch(ActionCreator.loadOffers(data));
+      dispatch(ActionCreator.setCurrentCity(cityNames[0]));
+      dispatch(ActionCreator.loadComplete(true));
+    } catch ({message}) {
+      dispatch(ActionCreator.loadingErrorOffers(message || `Error`));
+    }
   },
-  loadReviews: (id) => (dispatch, _getState, api) => {
-    api.get(`comments/${id}`)
-      .then((response) => {
-        if (response.status === 200) {
-          const parsedData = ReviewModel.parseToReviews(response.data);
-          dispatch(ActionCreator.loadReviews(parsedData));
-        }
-      })
-      .catch(() => dispatch(ActionCreator.loadReviews([])));
+
+  refreshOffers: (newParams) => (dispatch, _getState, apiProvider) => {
+    const offers = apiProvider.refreshOffers(newParams);
+    dispatch(ActionCreator.loadOffers(offers));
   },
-  postReview: (review, id) => (dispatch, _getState, api) => {
-    api.post(`/comments/${id}`, review)
-      .then((response) => {
-        if (response.status === 200) {
-          const parsedData = ReviewModel.parseToReviews(response.data);
-          dispatch(ActionCreator.loadReviews(parsedData));
-        }
-      })
-      // eslint-disable-next-line no-console
-      .catch((e) => console.error(e.message));
-  },
-  addToFavorites: (url) => (dispatch, getState, api) => {
-    api.post(`/favorite/${url}`)
-      .then((response) => {
-        if (response.status === 200) {
-          const currentData = getData(getState());
-          const parsedData = OfferModel.parseToOffer(response.data);
-          const index = currentData.findIndex((item) => item.id === parsedData.id);
-          const newData = [...currentData.slice(0, index), parsedData, ...currentData.slice(index + 1)];
-          dispatch(ActionCreator.loadOffers(newData));
-        }
-      })
-      // eslint-disable-next-line no-console
-      .catch((e) => console.error(e.message));
+
+  syncOffers: () => async (dispatch, _getState, apiProvider) => {
+    const data = await apiProvider.syncOffers();
+    dispatch(ActionCreator.loadOffers(data));
   }
 };
 
@@ -82,19 +51,19 @@ const ActionCreator = {
     payload: data,
   }),
 
-  loadComplete: () => ({
+  loadComplete: (bool) => ({
     type: ActionType.LOAD_COMPLETE,
-    payload: true
-  }),
-
-  loadReviews: (reviews) => ({
-    type: ActionType.LOAD_REVIEWS,
-    payload: reviews
+    payload: bool
   }),
 
   setKeySorting: (key) => ({
     type: ActionType.SET_KEY_SORTING,
     payload: key
+  }),
+
+  loadingErrorOffers: (message) => ({
+    type: ActionType.LOADING_ERROR_OFFERS,
+    payload: message
   })
 };
 
@@ -115,14 +84,14 @@ const reducer = (state = initialState, action) => {
         isLoaded: action.payload
       });
 
-    case ActionType.LOAD_REVIEWS:
-      return Object.assign({}, state, {
-        reviews: action.payload
-      });
-
     case ActionType.SET_KEY_SORTING:
       return Object.assign({}, state, {
         keySorting: action.payload
+      });
+
+    case ActionType.LOADING_ERROR_OFFERS:
+      return Object.assign({}, state, {
+        loadingErrorOffers: action.payload
       });
   }
   return state;

@@ -133,8 +133,9 @@ exports[`ReviewsForm is rendered correctly 1`] = `
     </label>
   </div>
   <textarea
-    className="reviews__textarea form__textarea"
+    className="reviews__textarea form__textarea "
     id="review"
+    maxLength="200"
     name="review"
     onInput={[MockFunction]}
     placeholder="Tell how was your stay, what you like and what can be improved"

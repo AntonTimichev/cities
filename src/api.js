@@ -8,10 +8,15 @@ export const createAPI = (onLoginFail) => {
   });
 
   const onSuccess = (response) => response;
+
   const onFail = (err) => {
-    if (err.response.request.responseURL.indexOf(`/login`) === -1 && err.response.status === 403) {
+    if (err.response &&
+      err.response.request.responseURL.indexOf(`/login`) === -1 &&
+      err.response.status === 403) {
       onLoginFail();
-      return Promise.reject(err);
+      return Promise.reject(false);
+    } else if (err.response && err.response.status === 403) {
+      return Promise.reject(null);
     }
     return Promise.reject(err);
   };

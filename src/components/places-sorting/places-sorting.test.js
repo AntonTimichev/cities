@@ -15,7 +15,7 @@ it(`PlacesSorting is rendered correctly`, () => {
     currentKey={-1}
     currentOption={`to Top`}
     options={options}
-    isOpen={false}
+    isOpenFilter={false}
     onToggleItemClick={jest.fn()}
     onSortingItemCLick={jest.fn()}
   />).toJSON();

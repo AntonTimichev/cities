@@ -15,7 +15,8 @@ const mock = {
   onCityNameClick: jest.fn(),
   onItemClick: jest.fn(),
   setKeySorting: jest.fn(),
-  addToFavorites: jest.fn(),
+  onFavoriteBtnClick: jest.fn(),
+  idError: -1,
   activeItem: -1,
   location: {
     latitude: 45.325654,
@@ -40,7 +41,22 @@ const mock = {
 };
 
 it(`Main is rendered correctly`, () => {
-  const {offers, currentCity, isOpen, currentOption, onCityNameClick, location, mappedCoords, activeItem, onItemClick, leaflet, onToggleItemClick, addToFavorites, setKeySorting} = mock;
+  const {
+    offers,
+    currentCity,
+    isOpen,
+    currentOption,
+    idError,
+    onFavoriteBtnClick,
+    onCityNameClick,
+    location,
+    mappedCoords,
+    activeItem,
+    onItemClick,
+    leaflet,
+    onToggleItemClick,
+    setKeySorting} = mock;
+
   const tree = renderer.create(<MemoryRouter>
     <Main
       offers={offers}
@@ -53,9 +69,10 @@ it(`Main is rendered correctly`, () => {
       leaflet={leaflet}
       onToggleItemClick={onToggleItemClick}
       currentOption={currentOption}
-      setKeySorting={addToFavorites}
-      isOpen={isOpen}
-      addToFavorites={setKeySorting}
+      setKeySorting={setKeySorting}
+      isOpenFilter={isOpen}
+      idError={idError}
+      onFavoriteBtnClick={onFavoriteBtnClick}
     /></MemoryRouter>).toJSON();
 
   expect(tree).toMatchSnapshot();

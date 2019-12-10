@@ -1,3 +1,5 @@
+
+
 export default class ReviewModel {
   constructor(data) {
     this.id = data[`id`];

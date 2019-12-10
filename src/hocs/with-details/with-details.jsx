@@ -3,16 +3,22 @@ import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {compose} from "recompose";
 
-import {getOfferData, getCurrentReviews, getNearOffers, getNearOffersCoords} from "../../reducer/data/selectors.js";
-import {Operation as DataOperation} from "../../reducer/data/data.js";
-
+import {Operation as ReviewOperation, ActionCreator as ReviewActionCreator} from "../../reducer/review/review.js";
+import {getOfferData, getNearOffers, getNearOffersCoords} from "../../reducer/data/selectors.js";
+import {getCurrentReviews, getPostingReviewStatus, getReviewError} from "../../reducer/review/selectors.js";
 
 const withDetails = (Component) => {
   class WithDetails extends PureComponent {
 
+    componentDidUpdate(prevProps) {
+      const {offerData} = this.props;
+      if (prevProps.offerData.id !== offerData.id) {
+        this._refreshProperty();
+      }
+    }
+
     componentDidMount() {
-      const {getReviews} = this.props;
-      getReviews();
+      this._refreshProperty();
     }
 
     render() {
@@ -20,19 +26,20 @@ const withDetails = (Component) => {
         {... this.props}
       />;
     }
+
+    _refreshProperty() {
+      const {loadReviews, changeReviewError} = this.props;
+      changeReviewError(false);
+      loadReviews();
+      window.scrollTo(0, 0);
+    }
   }
 
   WithDetails.propTypes = {
     offerData: PropTypes.object.isRequired,
-    reviews: PropTypes.array.isRequired,
-    mappedCoords: PropTypes.arrayOf(PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      position: PropTypes.array.isRequired
-    })),
-    nearOffers: PropTypes.arrayOf(PropTypes.object).isRequired,
-    getReviews: PropTypes.func.isRequired
+    loadReviews: PropTypes.func.isRequired,
+    changeReviewError: PropTypes.func.isRequired
   };
-
 
   return WithDetails;
 };
@@ -40,19 +47,24 @@ const withDetails = (Component) => {
 const mapStateToProps = (state, ownProps) => Object.assign({}, ownProps, {
   offerData: getOfferData(state, Number(ownProps.match.params.id)),
   reviews: getCurrentReviews(state),
+  postingReviewStatus: getPostingReviewStatus(state),
   nearOffers: getNearOffers(state, Number(ownProps.match.params.id)),
-  mappedCoords: getNearOffersCoords(state, Number(ownProps.match.params.id))
+  mappedCoords: getNearOffersCoords(state, Number(ownProps.match.params.id)),
+  reviewError: getReviewError(state)
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  getReviews: () => {
-    dispatch(DataOperation.loadReviews(Number(ownProps.match.params.id)));
+  loadReviews: () => {
+    dispatch(ReviewOperation.loadReviews(Number(ownProps.match.params.id)));
   },
   postReview: (review) => {
-    dispatch(DataOperation.postReview(review, Number(ownProps.match.params.id)));
+    dispatch(ReviewOperation.postReview(review, Number(ownProps.match.params.id)));
   },
-  addToFavorites: (path) => {
-    dispatch(DataOperation.addToFavorites(path));
+  changeReviewStatus: (bool) => {
+    dispatch(ReviewActionCreator.postingReviewStatus(bool));
+  },
+  changeReviewError: (bool) => {
+    dispatch(ReviewActionCreator.reviewError(bool));
   }
 });
 

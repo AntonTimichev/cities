@@ -8,11 +8,31 @@ body {
   margin: 0
 }
 
-body > #root > main {
+body > #root > main.page__main--index {
   height: 100vh;
 }
 
-.page {
+#root {
+  position: relative;
+}
+
+.page--login #root::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 12.03vh;
+  min-width: 195px;
+  height: 100vh;
+  min-height: 450px;
+  bottom: 0;
+  background-color: #f5f5f5;
+  border-right: 6px solid #4481c3;
+  -webkit-transform: skew(-6.5deg) translateX(-75%);
+  transform: skew(-6.5deg) translateX(-75%);
+}
+
+.page, .page__main:not(.page__main--index) {
   min-height: 100vh;
 }
 
@@ -402,7 +422,7 @@ img {
   -webkit-box-align: start;
   -ms-flex-align: start;
   align-items: flex-start;
-  padding: 19px 16px 0
+  padding: 19px 16px 0;
 }
 
 .header__left {
@@ -544,7 +564,30 @@ img {
 }
 
 .cities__places-container--empty {
+  min-height: 100vh;
   padding-right: 0
+}
+
+.cities__places-container--empty .cities__right-section {
+  background-color: #4481c3;;
+}
+
+.cities__places-container--empty .btn-retry {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: skew(-15deg)  translateX(-50%);
+  transform: skew(-15deg) translateX(-50%);
+  padding: 9px 15px 6px 14px;
+  background-color: #4481c3;
+  color: #fff;
+  font-size: 19px;
+  line-height: 1.211;
+  font-weight: 600;
+  font-style: oblique;
+  border-radius: 3px;
+  -webkit-transition: background .3s, color .3s, text-shadow .3s;
+  transition: background .3s, color .3s, text-shadow .3s;
 }
 
 .cities__no-places {
@@ -558,14 +601,14 @@ img {
   position: absolute;
   width: 12.06vh;
   min-width: 100px;
-  max-width: 120px;
+  max-width: 140px;
   height: 100%;
   bottom: 0;
-  right: -48px;
+  right: -13%;
   background-color: #fff;
   border-right: 6px solid #4481c3;
-  -webkit-transform: skew(-6.5deg);
-  transform: skew(-6.5deg)
+  -webkit-transform: skew(-6deg);
+  transform: skew(-6deg);
 }
 
 .cities__places {
@@ -903,6 +946,11 @@ img {
   fill: #4481c3
 }
 
+.place-card__bookmark-button--error .place-card__bookmark-icon {
+  stroke: red;
+  fill: red
+}
+
 .place-card__bookmark-icon {
   fill: none;
   stroke: #979797;
@@ -1125,6 +1173,14 @@ img {
   text-align: center
 }
 
+.property__name--city {
+  font-weight: 400;
+}
+
+.property__name-wrapper {
+  text-align: center;
+}
+
 .property__bookmark-button {
   position: absolute;
   top: 41px;
@@ -1149,6 +1205,11 @@ img {
 .property__bookmark-button--active .property__bookmark-icon {
   stroke: #4481c3;
   fill: #4481c3
+}
+
+.property__bookmark-button--error .property__bookmark-icon {
+  stroke: red;
+  fill: red
 }
 
 .property__rating {
@@ -1639,6 +1700,10 @@ img {
   border-radius: 2px
 }
 
+.form__textarea.form__textarea--error {
+  border: 3px solid red;
+}
+
 .form__textarea::-webkit-input-placeholder {
   font-size: 16px;
   line-height: 1.1875;
@@ -1709,6 +1774,11 @@ img {
   color: #818181
 }
 
+.form__input--error {
+  border: solid 2px red;
+  font-weight: 800;
+}
+
 .form__submit {
   padding: 16px 20px 13px;
   color: #fff;
@@ -1771,7 +1841,7 @@ img {
   padding-left: 13px
 }
 
-.login::after {
+/*.login::after {
   content: "";
   position: absolute;
   top: -7vh;
@@ -1785,7 +1855,7 @@ img {
   border-right: 6px solid #4481c3;
   -webkit-transform: skew(-6.5deg);
   transform: skew(-6.5deg)
-}
+}*/
 
 .login__title {
   position: relative;
@@ -1882,6 +1952,7 @@ img {
 
 .favorites__image-wrapper {
   min-width: 150px;
+  max-width: 150px;
   margin-right: 16px;
   margin-bottom: 0
 }
@@ -1938,6 +2009,52 @@ img {
 
 .header__logo-link:not(.header__logo-link--active):focus, .header__logo-link:not(.header__logo-link--active):hover {
   opacity: .5
+}
+
+.fixed-overlay {
+  position: fixed;
+  overflow: auto;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.5);
+}
+
+.fixed-overlay__modal {
+  text-align: center;
+  white-space: nowrap;
+}
+
+.fixed-overlay__modal::after {
+  display: inline-block;
+  vertical-align: middle;
+  width: 0;
+  height: 100%;
+  content: '';
+}
+
+.modal {
+  display: inline-block;
+  vertical-align: middle;
+  background-color: #fff;
+  padding: 20px;
+}
+
+.modal_container {
+  margin: 50px;
+  padding: 20px;
+  text-align: left;
+  white-space: normal;
+  background-color: #fff;
+  color: #000;
+}
+
+.btn-retry {
+  /*width: 70px;
+  height: 20px;
+  background-color: aquamarine;
+  margin-bottom: 15px;*/
 }
 
 /*# sourceMappingURL=main.css.map */

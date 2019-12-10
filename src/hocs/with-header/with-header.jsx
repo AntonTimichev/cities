@@ -1,15 +1,17 @@
 import React, {PureComponent} from "react";
 import PropTypes from "prop-types";
+import {connect} from "react-redux";
+import {compose} from "recompose";
+
+import Header from "../../components/header/header.jsx";
 
 import history from "../../history.js";
-import Header from "../../components/header/header.jsx";
-import {setClassForBody} from "../../utils";
+import {setClassForBody} from "../../utils.js";
+import {getUserParams} from "../../reducer/user/selectors";
+
 
 const withHeader = (Component) => {
   class WithHeader extends PureComponent {
-    constructor(props) {
-      super(props);
-    }
 
     render() {
       setClassForBody(history.location);
@@ -30,4 +32,9 @@ const withHeader = (Component) => {
   return WithHeader;
 };
 
-export default withHeader;
+const mapStateToProps = (state, ownProps) => Object.assign({}, ownProps, {
+  userParams: getUserParams(state)
+});
+
+export {withHeader};
+export default compose(connect(mapStateToProps), withHeader);

@@ -1,4 +1,5 @@
 import React, {PureComponent} from "react";
+import {Redirect} from "react-router-dom";
 import PropTypes from "prop-types";
 
 const withLoginUser = (Component) => {
@@ -16,15 +17,24 @@ const withLoginUser = (Component) => {
       this._handleFormSubmit = this._handleFormSubmit.bind(this);
     }
 
+    componentDidMount() {
+      const {loginError} = this.props;
+      loginError(false);
+      window.scrollTo(0, 0);
+    }
+
     render() {
       const {isInvalidMail, isInvalidPass} = this.state;
-      return <Component
-        {...this.props}
-        isInvalidMail={isInvalidMail}
-        isInvalidPass={isInvalidPass}
-        onFormSubmit={this._handleFormSubmit}
-        onInputBlur={this._handleInputBlur}
-      />;
+      const {isAuth} = this.props;
+      return isAuth
+        ? <Redirect to="/favorite" />
+        : <Component
+          {...this.props}
+          isInvalidMail={isInvalidMail}
+          isInvalidPass={isInvalidPass}
+          onFormSubmit={this._handleFormSubmit}
+          onInputBlur={this._handleInputBlur}
+        />;
     }
 
     _handleFormSubmit() {
@@ -32,24 +42,36 @@ const withLoginUser = (Component) => {
       const {email, password, isInvalidMail, isInvalidPass} = this.state;
       if (email && password && !isInvalidMail && !isInvalidPass) {
         loginUser({email, password});
+      } else {
+        this.setState((_prevState) => {
+          return {
+            isInvalidMail: this._checkInvalidMail(email),
+            isInvalidPass: (password.length < 3)
+          };
+        });
       }
     }
 
     _handleInputBlur(e) {
-      const {target} = e;
-      if (target.name === `password`) {
-        this.setState({isInvalidPass: !(target.value.length >= 3)});
+      const {target: {name, value}} = e;
+      if (name === `password`) {
+        this.setState({isInvalidPass: (value.length < 3)});
       }
-      if (target.name === `email`) {
-        const isValid = (target.value && /^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i.test(target.value) && /(\.com|\.ru)$/.test(target.value));
-        this.setState({isInvalidMail: !isValid});
+      if (name === `email`) {
+        this.setState({isInvalidMail: this._checkInvalidMail(value)});
       }
-      this.setState({[target.name]: target.value});
+      this.setState({[name]: value});
+    }
+
+    _checkInvalidMail(value) {
+      return !(value && /^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i.test(value) && /(\.com|\.ru)$/.test(value));
     }
   }
 
   WithLoginUser.propTypes = {
-    loginUser: PropTypes.func.isRequired
+    loginUser: PropTypes.func.isRequired,
+    isAuth: PropTypes.bool.isRequired,
+    loginError: PropTypes.func.isRequired
   };
 
   return WithLoginUser;

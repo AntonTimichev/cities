@@ -10,10 +10,11 @@ const offer = OffersMock[0];
 it(`Offer is rendered correctly`, () => {
   const tree = renderer.create(<MemoryRouter>
     <Offer
+      idError={-1}
+      onFavoriteBtnClick={jest.fn()}
       offer={offer}
       isActive={false}
-      linkName={`offer/1`}
-      onOfferImgClick={jest.fn()}
+      onItemClick={jest.fn()}
       onBookmarkBtnClick={jest.fn()}
     />
   </MemoryRouter>).toJSON();

@@ -2,14 +2,28 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import PlacesSorting from "../places-sorting/places-sorting.jsx";
-import OffersList from "../offers-list/offers-list.jsx";
 import withMap from "../../hocs/with-map/with-map.jsx";
-import {citiesMap, optionsOfSorting} from "../../apperance.js";
+import withOfferList from "../../hocs/with-offer-list/with-offer-list.jsx";
+import Offer from "../offer/offer.jsx";
 
-const MapWrapped = withMap(citiesMap);
+import {citiesMapClassName, optionsOfSorting} from "../../apperance.js";
+
+const MapWrapped = withMap(citiesMapClassName);
+const OfferList = withOfferList(Offer);
 
 const Main = (props) => {
-  const {offers, currentCity, currentOption, isOpen, activeItem, onItemClick, mappedCoords, location, leaflet, setKeySorting, onToggleItemClick, addToFavorites} = props;
+  const {
+    offers,
+    currentCity,
+    currentOption,
+    isOpenFilter,
+    activeItem,
+    mappedCoords,
+    location,
+    leaflet,
+    setKeySorting,
+    onToggleItemClick,
+    ...restProps} = props;
 
   return <div className="cities__places-wrapper">
     <div className="cities__places-container container">
@@ -19,16 +33,17 @@ const Main = (props) => {
         <PlacesSorting
           options={optionsOfSorting}
           currentOption={currentOption}
-          isOpen={isOpen}
+          isOpenFilter={isOpenFilter}
           onSortingItemCLick={setKeySorting}
           onToggleItemClick={onToggleItemClick}
         />
-        <OffersList
-          activeItem={activeItem}
-          offers={offers}
-          onOfferImgClick={onItemClick}
-          onBookmarkBtnClick={addToFavorites}
-        />
+        <div className="cities__places-list places__list tabs__content">
+          <OfferList
+            {...restProps}
+            activeItem={activeItem}
+            offers={offers}
+          />
+        </div>
       </section>
       <div className="cities__right-section">
         <MapWrapped
@@ -59,13 +74,11 @@ Main.propTypes = {
   location: PropTypes.object.isRequired,
   currentCity: PropTypes.string.isRequired,
   activeItem: PropTypes.number,
-  onItemClick: PropTypes.func,
   leaflet: PropTypes.object.isRequired,
   currentOption: PropTypes.string.isRequired,
-  isOpen: PropTypes.bool.isRequired,
+  isOpenFilter: PropTypes.bool.isRequired,
   setKeySorting: PropTypes.func.isRequired,
   onToggleItemClick: PropTypes.func.isRequired,
-  addToFavorites: PropTypes.func.isRequired
 };
 
 export default Main;

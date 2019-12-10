@@ -2,13 +2,16 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import withMap from "../../hocs/with-map/with-map.jsx";
-import OffersList from "../offers-list/offers-list.jsx";
-import {propertyMap} from "../../apperance.js";
+import withOfferList from "../../hocs/with-offer-list/with-offer-list.jsx";
+import Offer from "../offer/offer.jsx";
 
-const MapWrapped = withMap(propertyMap);
+import {propertyMapClassName} from "../../apperance.js";
+
+const MapWrapped = withMap(propertyMapClassName);
+const OfferList = withOfferList(Offer);
 
 const NearPlaces = (props) => {
-  const {location, mappedCoords, nearOffers, activeItem, onItemClick, leaflet, onBookmarkBtnClick} = props;
+  const {location, mappedCoords, nearOffers, activeItem, leaflet, ...restProps} = props;
   const offers = nearOffers.length > 1 ? nearOffers.slice(1, nearOffers.length) : [];
 
   return <div className="container">
@@ -22,11 +25,10 @@ const NearPlaces = (props) => {
     <section className="near-places places">
       <h2 className="near-places__title">Other places in the neighbourhood</h2>
       <div className="near-places__list places__list">
-        <OffersList
+        <OfferList
+          {...restProps}
           activeItem={activeItem}
           offers={offers}
-          onOfferImgClick={onItemClick}
-          onBookmarkBtnClick={onBookmarkBtnClick}
         />
       </div>
     </section>
@@ -43,7 +45,6 @@ NearPlaces.propTypes = {
   activeItem: PropTypes.number,
   onItemClick: PropTypes.func,
   leaflet: PropTypes.object.isRequired,
-  onBookmarkBtnClick: PropTypes.func.isRequired
 };
 
 export default NearPlaces;

@@ -1,13 +1,14 @@
 import React from "react";
 import PropTypes from "prop-types";
+import {Link} from "react-router-dom";
 
 const SignIn = (props) => {
-  const {isInvalidMail, isInvalidPass, onInputBlur, onFormSubmit} = props;
+  const {currentCity, loginErrorStatus, isInvalidMail, isInvalidPass, onInputBlur, onFormSubmit} = props;
+  const classInput = `login__input form__input ${loginErrorStatus ? `form__input--error` : ``}`;
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    const form = e.target.closest(`.login__form form`);
-    onFormSubmit(form);
+    onFormSubmit();
   };
 
   return <main className="page__main page__main--login">
@@ -18,7 +19,7 @@ const SignIn = (props) => {
           <div className="login__input-wrapper form__input-wrapper">
             <label className="visually-hidden">E-mail</label>
             <input
-              className="login__input form__input"
+              className={classInput}
               type="email"
               name="email"
               placeholder="Email"
@@ -30,7 +31,7 @@ const SignIn = (props) => {
           <div className="login__input-wrapper form__input-wrapper">
             <label className="visually-hidden">Password</label>
             <input
-              className="login__input form__input"
+              className={classInput}
               type="password"
               name="password"
               placeholder="Password"
@@ -50,9 +51,9 @@ const SignIn = (props) => {
       </section>
       <section className="locations locations--login locations--current">
         <div className="locations__item">
-          <a className="locations__item-link" href="#">
-            <span>Amsterdam</span>
-          </a>
+          <Link to="/" className="locations__item-link">
+            <span>{currentCity}</span>
+          </Link>
         </div>
       </section>
     </div>
@@ -60,6 +61,8 @@ const SignIn = (props) => {
 };
 
 SignIn.propTypes = {
+  currentCity: PropTypes.string.isRequired,
+  loginErrorStatus: PropTypes.bool.isRequired,
   isInvalidMail: PropTypes.bool,
   isInvalidPass: PropTypes.bool,
   onInputBlur: PropTypes.func,

@@ -7,11 +7,15 @@ import {OffersMock, leafletMock} from "../../mocks/mock.js";
 
 const mock = {
   nearOffers: OffersMock,
-  offerData: OffersMock[0],
   leaflet: leafletMock,
+  idError: -1,
+  reviewError: false,
+  postingReviewStatus: false,
+  changeReviewStatus: jest.fn(),
+  offerData: OffersMock[0],
   isAuth: false,
   postReview: jest.fn(),
-  addToFavorites: jest.fn(),
+  onFavoriteBtnClick: jest.fn(),
   mappedCoords: [
     {
       id: 10,
@@ -55,17 +59,30 @@ const mock = {
 };
 
 it(`Property is rendered correctly`, () => {
-  const {offerData, reviews, nearOffers, mappedCoords, leaflet, isAuth, postReview, addToFavorites} = mock;
+  const {
+    idError,
+    reviewError,
+    postingReviewStatus,
+    changeReviewStatus,
+    offerData,
+    reviews,
+    isAuth,
+    postReview,
+    onFavoriteBtnClick,
+    ...restProps} = mock;
+
   const tree = renderer.create(<MemoryRouter>
     <Property
+      {...restProps}
+      idError={idError}
+      reviewError={reviewError}
+      postingReviewStatus={postingReviewStatus}
+      changeReviewStatus={changeReviewStatus}
       offerData={offerData}
       reviews={reviews}
-      nearOffers={nearOffers}
-      mappedCoords={mappedCoords}
-      leaflet={leaflet}
       isAuth={isAuth}
       postReview={postReview}
-      addToFavorites={addToFavorites}
+      onFavoriteBtnClick={onFavoriteBtnClick}
     />
   </MemoryRouter>).toJSON();
 

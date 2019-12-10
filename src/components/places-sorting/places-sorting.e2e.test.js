@@ -20,7 +20,7 @@ it(`Onclick on spanBtn works correctly`, () => {
     currentKey={-1}
     currentOption={`to Top`}
     options={options}
-    isOpen={false}
+    isOpenFilter={false}
     onToggleItemClick={handleToggleViewOptions}
     onSortingItemCLick={handleSortingClick}
   />);
@@ -39,7 +39,7 @@ it(`Onclick on optionsList works correctly`, () => {
     currentKey={-1}
     currentOption={`to Top`}
     options={options}
-    isOpen={false}
+    isOpenFilter={false}
     onToggleItemClick={handleToggleViewOptions}
     onSortingItemCLick={handleSortingClick}
   />);
@@ -62,7 +62,7 @@ it(`optionsList render correctly`, () => {
     currentKey={-1}
     currentOption={`to Top`}
     options={options}
-    isOpen={true}
+    isOpenFilter={true}
     onToggleItemClick={handleToggleViewOptions}
     onSortingItemCLick={handleSortingClick}
   />);

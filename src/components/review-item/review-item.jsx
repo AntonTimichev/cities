@@ -1,11 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
-import moment from 'moment';
 
 const ReviewItem = ({review}) => {
   const {user, rating, comment, date} = review;
   const {name, avatarUrl} = user;
-  const formattedDate = `${moment(date).format(`MMMM YYYY`)}`;
 
   return <li className="reviews__item">
     <div className="reviews__user user">
@@ -27,7 +25,7 @@ const ReviewItem = ({review}) => {
       <p className="reviews__text">
         {comment}
       </p>
-      <time className="reviews__time" dateTime="2019-04-24">{formattedDate}</time>
+      <time className="reviews__time" dateTime="2019-04-24">{date}</time>
     </div>
   </li>;
 };

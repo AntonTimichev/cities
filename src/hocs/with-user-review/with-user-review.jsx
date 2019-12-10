@@ -5,57 +5,86 @@ const withReviewUser = (Component) => {
   class WithReviewUser extends PureComponent {
     constructor(props) {
       super(props);
+      this._form = React.createRef();
+      this._btnSubmit = React.createRef();
       this.state = {
         rating: ``,
-        comment: ``
+        comment: ``,
+        isValidForm: false
       };
 
       this._handleRatingClick = this._handleRatingClick.bind(this);
-      this._handleInputBlur = this._handleInputBlur.bind(this);
+      this._handleTextAreaInput = this._handleTextAreaInput.bind(this);
       this._handleFormSubmit = this._handleFormSubmit.bind(this);
     }
 
-    render() {
-      const {rating, comment} = this.state;
-      return <Component
-        {...this.props}
-        isSubmit={!(rating && comment)}
-        onRatingClick={this._handleRatingClick}
-        onFormSubmit={this._handleFormSubmit}
-        onInputBlur={this._handleInputBlur}
-      />;
-    }
-
-    _handleFormSubmit(form) {
-      const {postReview} = this.props;
-      const {rating, comment} = this.state;
-      if (rating && comment) {
-        this.setState({comment: ``, rating: ``}, () => {
-          postReview({rating, comment});
-          form.reset();
+    componentDidUpdate(prevProps) {
+      const {id, reviewError, postingReviewStatus, changeReviewStatus} = this.props;
+      if ((prevProps.id !== id) || (postingReviewStatus && !reviewError)) {
+        this.setState((_prevState) => {
+          return {
+            rating: ``,
+            comment: ``,
+            isValidForm: false
+          };
         });
+        this._form.current.reset();
+        this._btnSubmit.current.disabled = true;
+        changeReviewStatus(false);
       }
     }
 
-    _handleInputBlur(e) {
-      let {value} = e.target;
-      this.setState({comment: value}, () => {
-        if (!value || value.length < 50) {
-          this.setState({comment: ``});
-        }
-        if (value.length > 200) {
-          value = value.slice(0, 200);
-        }
+    render() {
+      const {isValidForm} = this.state;
+      return <Component
+        {...this.props}
+        refForm={this._form}
+        refBtnSubmit={this._btnSubmit}
+        isSubmit={!isValidForm}
+        onRatingClick={this._handleRatingClick}
+        onFormSubmit={this._handleFormSubmit}
+        onTextAreaInput={this._handleTextAreaInput}
+      />;
+    }
+
+    _handleFormSubmit() {
+      const {postReview} = this.props;
+      const {rating, comment} = this.state;
+      postReview({rating, comment});
+    }
+
+    _handleTextAreaInput({target: {value}}) {
+      if (value.length < 50 || value.length > 200) {
+        value = ``;
+      }
+      this.setState((prevState) => {
+        const {rating} = prevState;
+        return {
+          comment: value,
+          isValidForm: value && !!rating
+        };
       });
     }
 
-    _handleRatingClick(e) {
-      this.setState({rating: e.target.value});
+    _handleRatingClick({target: {value}}) {
+      if (value) {
+        this.setState((prevState) => {
+          const {comment} = prevState;
+          return {
+            rating: value,
+            isValidForm: !!comment
+          };
+        });
+      }
     }
   }
 
   WithReviewUser.propTypes = {
-    postReview: PropTypes.func.isRequired
+    id: PropTypes.number.isRequired,
+    postReview: PropTypes.func.isRequired,
+    reviewError: PropTypes.bool.isRequired,
+    postingReviewStatus: PropTypes.bool.isRequired,
+    changeReviewStatus: PropTypes.func.isRequired
   };
 
   return WithReviewUser;

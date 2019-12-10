@@ -1,8 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-const PlacesSorting = ({currentOption, options, isOpen, onSortingItemCLick, onToggleItemClick}) => {
-  const optionsClassName = `places__options places__options--custom ${isOpen ? `places__options--opened` : ``}`;
+const PlacesSorting = ({currentOption, options, isOpenFilter, onSortingItemCLick, onToggleItemClick}) => {
+  const optionsClassName = `places__options places__options--custom ${isOpenFilter ? `places__options--opened` : ``}`;
 
   const handleSortingClick = (e) => {
     e.preventDefault();
@@ -32,11 +32,10 @@ const PlacesSorting = ({currentOption, options, isOpen, onSortingItemCLick, onTo
 };
 
 PlacesSorting.propTypes = {
-  // currentKey: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
   options: PropTypes.object.isRequired,
   currentOption: PropTypes.string.isRequired,
   onSortingItemCLick: PropTypes.func.isRequired,
-  isOpen: PropTypes.bool.isRequired,
+  isOpenFilter: PropTypes.bool.isRequired,
   onToggleItemClick: PropTypes.func.isRequired,
 };
 

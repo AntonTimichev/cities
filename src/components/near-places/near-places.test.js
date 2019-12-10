@@ -29,12 +29,22 @@ const mock = {
     zoom: 14
   },
   activeItem: -1,
+  idError: -1,
   onItemClick: jest.fn(),
-  onBookmarkBtnClick: jest.fn()
+  onFavoriteBtnClick: jest.fn()
 };
 
 it(`NearPlaces is rendered correctly`, () => {
-  const {activeItem, mappedCoords, location, nearOffers, onItemClick, leaflet, onBookmarkBtnClick} = mock;
+  const {
+    activeItem,
+    mappedCoords,
+    location,
+    nearOffers,
+    onItemClick,
+    leaflet,
+    idError,
+    onFavoriteBtnClick} = mock;
+
   const tree = renderer.create(<MemoryRouter>
     <NearPlaces
       mappedCoords={mappedCoords}
@@ -43,7 +53,8 @@ it(`NearPlaces is rendered correctly`, () => {
       onItemClick={onItemClick}
       nearOffers={nearOffers}
       leaflet={leaflet}
-      onBookmarkBtnClick={onBookmarkBtnClick}
+      idError={idError}
+      onFavoriteBtnClick={onFavoriteBtnClick}
     /></MemoryRouter>).toJSON();
 
   expect(tree).toMatchSnapshot();

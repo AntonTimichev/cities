@@ -3,24 +3,23 @@ import {configure, mount} from "enzyme";
 import Adapter from "enzyme-adapter-react-16";
 import {MemoryRouter} from 'react-router-dom';
 
-import Offer from "./offer.jsx";
+import OfferInfo from "./offer-info.jsx";
 import {OffersMock} from "../../mocks/mock.js";
 
 configure({adapter: new Adapter()});
 
 const offer = OffersMock[0];
 
-it(`Onclick on NameLink works correctly`, () => {
-  const handleOfferImgClick = jest.fn();
+it(`Link has the correct path`, () => {
   const cardComponent = mount(<MemoryRouter>
-    <Offer
+    <OfferInfo
       offer={offer}
-      isActive={false}
-      linkName={`offer/1`}
-      onOfferImgClick={handleOfferImgClick}
-      onBookmarkBtnClick={jest.fn()}
+      idError={-1}
+      onFavoriteBtnClick={jest.fn()}
     />
   </MemoryRouter>);
+  expect(cardComponent.find(`Link`).props().to).toBe(`/offer/1`);
 
-  expect(cardComponent.find(`Link`).props().to).toBe(`offer/1`);
+  cardComponent.unmount();
 });
+

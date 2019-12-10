@@ -3,8 +3,8 @@ export const ICON_SIZE = {
   HEIGHT: 30
 };
 
-export const citiesMap = `cities__map map`;
-export const propertyMap = `property__map map`;
+export const citiesMapClassName = `cities__map map`;
+export const propertyMapClassName = `property__map map`;
 
 export const optionsOfSorting = {
   '0': `Popular`,
