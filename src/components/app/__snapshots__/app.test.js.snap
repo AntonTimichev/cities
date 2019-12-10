@@ -132,6 +132,7 @@ exports[`App is rendered correctly 1`] = `
           </span>
           <span
             className="places__sorting-type"
+            onClick={[Function]}
             tabIndex="0"
           >
             Popular
@@ -146,28 +147,33 @@ exports[`App is rendered correctly 1`] = `
             </svg>
           </span>
           <ul
-            className="places__options places__options--custom places__options--"
+            className="places__options places__options--custom "
+            onClick={[Function]}
           >
             <li
-              className="places__option places__option--active"
+              className="places__option"
+              data-key="0"
               tabIndex="0"
             >
               Popular
             </li>
             <li
               className="places__option"
+              data-key="1"
               tabIndex="0"
             >
               Price: low to high
             </li>
             <li
               className="places__option"
+              data-key="2"
               tabIndex="0"
             >
               Price: high to low
             </li>
             <li
               className="places__option"
+              data-key="3"
               tabIndex="0"
             >
               Top rated first
@@ -259,7 +265,7 @@ exports[`App is rendered correctly 1`] = `
                   <span
                     style={
                       Object {
-                        "width": "93%",
+                        "width": "200%",
                       }
                     }
                   />
@@ -369,7 +375,7 @@ exports[`App is rendered correctly 1`] = `
                   <span
                     style={
                       Object {
-                        "width": "93%",
+                        "width": "220%",
                       }
                     }
                   />
@@ -472,7 +478,7 @@ exports[`App is rendered correctly 1`] = `
                   <span
                     style={
                       Object {
-                        "width": "93%",
+                        "width": "160%",
                       }
                     }
                   />

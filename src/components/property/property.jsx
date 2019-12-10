@@ -37,7 +37,7 @@ const Property = ({offerData, reviews, nearOffers, mappedCoords, leaflet}) => {
           </div>
           <div className="property__rating rating">
             <div className="property__stars rating__stars">
-              <span style={{width: `96%`}}/>
+              <span style={{width: `${20 * Math.round(rating)}%`}}/>
               <span className="visually-hidden">Rating</span>
             </div>
             <span className="property__rating-value rating__value">{rating}</span>

@@ -83,7 +83,7 @@ exports[`Offer is rendered correctly 1`] = `
         <span
           style={
             Object {
-              "width": "93%",
+              "width": "200%",
             }
           }
         />

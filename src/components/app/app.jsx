@@ -2,10 +2,10 @@ import React, {PureComponent} from "react";
 import {connect} from "react-redux";
 import PropTypes from "prop-types";
 
-
 import OffersList from "../offers-list/offers-list.jsx";
 import withMap from "../../hocs/with-map/with-map.jsx";
 import CitiesList from "../cities-list/cities-list.jsx";
+import PlacesSorting from "../places-sorting/places-sorting.jsx";
 import {ActionCreator} from "../../reducer/data/data";
 import {
   getCurrentCityName,
@@ -15,18 +15,27 @@ import {
   getCityOffersCoords
 } from "../../reducer/data/selectors.js";
 import {MAIN_MAP} from "../../hocs/with-map/class-names.js";
+import {SortingOptions} from "../name-spaces/name-spaces.js";
 
 const MapWrapped = withMap(MAIN_MAP);
 
 class App extends PureComponent {
   constructor(props) {
     super(props);
+    this.state = {
+      keySorting: -1,
+      isOpen: false
+    };
 
     this._handleOfferNameClick = this._handleOfferNameClick.bind(this);
+    this._handleSortingItemClick = this._handleSortingItemClick.bind(this);
+    this._handleToggleViewOptions = this._handleToggleViewOptions.bind(this);
   }
 
   render() {
     const {offers, currentCity, cityNames, location, mappedCoords, activeItem, onItemClick, leaflet} = this.props;
+    const {renderedOffers, currentOption} = this._getSortedOffers([...offers]);
+    const {keySorting, isOpen} = this.state;
 
     return <main className="page__main page__main&#45;&#45;index">
       <h1 className="visually-hidden">Cities</h1>
@@ -44,24 +53,17 @@ class App extends PureComponent {
           <section className="cities__places places">
             <h2 className="visually-hidden">Places</h2>
             <b className="places__found">{offers.length} places to stay in {currentCity}</b>
-            <form className="places__sorting" action="#" method="get">
-              <span className="places__sorting-caption">Sort by</span>
-              <span className="places__sorting-type" tabIndex="0">
-              Popular
-                <svg className="places__sorting-arrow" width="7" height="4">
-                  <use xlinkHref="#icon-arrow-select" />
-                </svg>
-              </span>
-              <ul className="places__options places__options&#45;&#45;custom places__options&#45;&#45;">
-                <li className="places__option places__option&#45;&#45;active" tabIndex="0">Popular</li>
-                <li className="places__option" tabIndex="0">Price: low to high</li>
-                <li className="places__option" tabIndex="0">Price: high to low</li>
-                <li className="places__option" tabIndex="0">Top rated first</li>
-              </ul>
-            </form>
+            <PlacesSorting
+              options={SortingOptions}
+              currentOption={currentOption}
+              currentKey={keySorting}
+              isOpen={isOpen}
+              onSortingItemCLick={this._handleSortingItemClick}
+              onToggleItemClick={this._handleToggleViewOptions}
+            />
             <OffersList
               activeItem={activeItem}
-              offers={offers}
+              offers={renderedOffers}
               onOfferImgClick={onItemClick}
             />
           </section>
@@ -83,6 +85,33 @@ class App extends PureComponent {
     const {onCityNameClick, onItemClick} = this.props;
     onItemClick(-1);
     onCityNameClick(cityName);
+    this.setState({isOpen: false});
+  }
+
+  _handleSortingItemClick(key) {
+    this.setState({keySorting: key});
+  }
+
+  _handleToggleViewOptions() {
+    this.setState({isOpen: !this.state.isOpen});
+  }
+
+  _getSortedOffers(offers) {
+    const {keySorting} = this.state;
+    const data = {
+      currentOption: SortingOptions[keySorting] || SortingOptions[`0`]
+    };
+    switch (keySorting) {
+      case `1`: data.renderedOffers = offers.sort((a, b) => a.price - b.price);
+        break;
+      case `2`: data.renderedOffers = offers.sort((a, b) => b.price - a.price);
+        break;
+      case `3`: data.renderedOffers = offers.sort((a, b) => b.rating - a.rating);
+        break;
+      default: data.renderedOffers = offers;
+        break;
+    }
+    return data;
   }
 }
 

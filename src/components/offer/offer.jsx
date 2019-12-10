@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import {Link} from "react-router-dom";
 
 const Offer = ({offer, isActive, onOfferImgClick, linkName}) => {
-  const {title, previewImage, isPremium, price, isFavorite, type, id} = offer;
+  const {title, previewImage, isPremium, price, isFavorite, type, id, rating} = offer;
   const btnClass = `place-card__bookmark-button button ${isFavorite ? `place-card__bookmark-button--active` : ``}`;
 
   const handleOfferImgClick = (e) => {
@@ -35,7 +35,7 @@ const Offer = ({offer, isActive, onOfferImgClick, linkName}) => {
       </div>
       <div className="place-card__rating rating">
         <div className="place-card__stars rating__stars">
-          <span style={{width: `93%`}} />
+          <span style={{width: `${20 * Math.round(rating)}%`}} />
           <span className="visually-hidden">Rating</span>
         </div>
       </div>

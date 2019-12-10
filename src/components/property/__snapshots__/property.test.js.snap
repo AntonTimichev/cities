@@ -104,7 +104,7 @@ exports[`Property is rendered correctly 1`] = `
             <span
               style={
                 Object {
-                  "width": "96%",
+                  "width": "200%",
                 }
               }
             />
@@ -622,7 +622,7 @@ exports[`Property is rendered correctly 1`] = `
                   <span
                     style={
                       Object {
-                        "width": "93%",
+                        "width": "220%",
                       }
                     }
                   />
@@ -725,7 +725,7 @@ exports[`Property is rendered correctly 1`] = `
                   <span
                     style={
                       Object {
-                        "width": "93%",
+                        "width": "160%",
                       }
                     }
                   />
