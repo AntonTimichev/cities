@@ -1,6 +1,8 @@
 import {createSelector} from "reselect";
 
 import NameSpaces from "../name-spaces.js";
+import {createSorter} from "../../utils.js";
+import {sortingParams, optionsOfSorting} from "../../Apperance.js";
 
 const NAME_SPACE = NameSpaces.DATA;
 const getData = (state) => state[NAME_SPACE].data;
@@ -8,8 +10,8 @@ const getMappedCoords = (offers) => offers.map((offer) => ({
   id: offer.id,
   position: [offer.location.latitude, offer.location.longitude]
 }));
+const getKeySorting = (state) => state[NAME_SPACE].keySorting;
 export const getOfferData = (state, id) => state[NAME_SPACE].data.find((offer) => offer.id === id);
-export const getCurrentOfferId = (state) => state[NAME_SPACE].currentOfferId;
 
 export const getIsLoaded = (state) => state[NAME_SPACE].isLoaded;
 export const getCurrentCityName = (state, id) => id ? getOfferData(state, id).city.name : state[NAME_SPACE].currentCity;
@@ -61,4 +63,10 @@ export const getNearOffersCoords = createSelector(
     getMappedCoords
 );
 export const getCurrentReviews = (state) => state[NAME_SPACE].reviews;
+export const getCurrentOption = (state) => optionsOfSorting[getKeySorting(state)];
+export const getSortedOffers = createSelector(
+    getCurrentCityOffers,
+    getKeySorting,
+    (offers, key) => sortingParams[key] ? [...offers].sort(createSorter(sortingParams[key])) : offers
+);
 

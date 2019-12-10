@@ -6,7 +6,7 @@ import Offer from "../offer/offer.jsx";
 const OffersList = (props) => {
   const {offers, activeItem, onOfferImgClick} = props;
 
-  return offers.length && <div className="cities__places-list places__list tabs__content">
+  return <div className="cities__places-list places__list tabs__content">
     {offers.map((offer, i) => {
       const linkName = `/offer/${offer.id}`;
       return <Offer

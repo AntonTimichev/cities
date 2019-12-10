@@ -1,11 +1,12 @@
 import OfferModel from "../../data-models/offer-model.js";
 import ReviewModel from "../../data-models/review-model.js";
+import {getRandomInteger} from "../../utils.js";
 
 const initialState = {
   currentCity: ``,
   data: [],
   isLoaded: false,
-  currentOfferId: -1,
+  keySorting: 0,
   reviews: []
 };
 
@@ -13,7 +14,8 @@ const ActionType = {
   SET_CURRENT_CITY: `SET_CURRENT_CITY`,
   LOAD_OFFERS: `LOAD_OFFERS`,
   LOAD_COMPLETE: `LOAD_COMPLETE`,
-  LOAD_REVIEWS: `LOAD_REVIEWS`
+  LOAD_REVIEWS: `LOAD_REVIEWS`,
+  SET_KEY_SORTING: `SET_KEY_SORTING`
 };
 
 const Operation = {
@@ -25,8 +27,8 @@ const Operation = {
         return parsedData;
       })
       .then((data) => {
-        const sortedData = [...new Set(data.map((offer) => offer.city.name))].sort();
-        dispatch(ActionCreator.setCurrentCity(sortedData[0]));
+        data = [...new Set(data.map((offer) => offer.city.name))];
+        dispatch(ActionCreator.setCurrentCity(data[getRandomInteger(0, data.length - 1)]));
       })
       .then(() => dispatch(ActionCreator.loadComplete()));
   },
@@ -62,6 +64,11 @@ const ActionCreator = {
     type: ActionType.LOAD_REVIEWS,
     payload: reviews
   }),
+
+  setKeySorting: (key) => ({
+    type: ActionType.SET_KEY_SORTING,
+    payload: key
+  })
 };
 
 const reducer = (state = initialState, action) => {
@@ -84,6 +91,11 @@ const reducer = (state = initialState, action) => {
     case ActionType.LOAD_REVIEWS:
       return Object.assign({}, state, {
         reviews: action.payload
+      });
+
+    case ActionType.SET_KEY_SORTING:
+      return Object.assign({}, state, {
+        keySorting: action.payload
       });
   }
   return state;

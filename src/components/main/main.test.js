@@ -2,13 +2,15 @@ import React from "react";
 import renderer from "react-test-renderer";
 import {MemoryRouter} from 'react-router-dom';
 
-import {App} from "./app.jsx";
+import Main from "./main";
 import {leafletMock, OffersMock} from "../../mocks/mock";
 
 const mock = {
   offers: OffersMock,
   leaflet: leafletMock,
-  cityNames: [`Amsterdam`, `Cologne`, `Brussels`, `Paris`, `Hamburg`, `Dusseldorf`],
+  isOpen: false,
+  currentOption: `Popular`,
+  onToggleItemClick: jest.fn(),
   currentCity: `Amsterdam`,
   onCityNameClick: jest.fn(),
   onItemClick: jest.fn(),
@@ -35,23 +37,23 @@ const mock = {
   ]
 };
 
-it(`App is rendered correctly`, () => {
-  const {offers, cityNames, currentCity, onCityNameClick, location, mappedCoords, activeItem, onItemClick, leaflet} = mock;
+it(`Main is rendered correctly`, () => {
+  const {offers, currentCity, isOpen, currentOption, onCityNameClick, location, mappedCoords, activeItem, onItemClick, leaflet, onToggleItemClick} = mock;
   const tree = renderer.create(<MemoryRouter>
-    <App
+    <Main
       offers={offers}
       currentCity={currentCity}
-      cityNames={cityNames}
       location={location}
       mappedCoords={mappedCoords}
       activeItem={activeItem}
       onCityNameClick={onCityNameClick}
       onItemClick={onItemClick}
-      currentOption={`dd`}
-      setKeySorting={jest.fn()}
       leaflet={leaflet}
-    />
-  </MemoryRouter>).toJSON();
+      onToggleItemClick={onToggleItemClick}
+      currentOption={currentOption}
+      setKeySorting={jest.fn()}
+      isOpen={isOpen}
+    /></MemoryRouter>).toJSON();
 
   expect(tree).toMatchSnapshot();
 });

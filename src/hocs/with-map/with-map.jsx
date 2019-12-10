@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import PropTypes from "prop-types";
 
-import {ICON_SIZE} from "../../constants";
+import {ICON_SIZE} from "../../Apperance";
 
 const withMap = (className) => {
   class WithMap extends Component {
@@ -82,14 +82,6 @@ const withMap = (className) => {
         iconUrl: `img/pin-active.svg`,
         iconSize: [ICON_SIZE.WIDTH, ICON_SIZE.HEIGHT]
       });
-      /*
-      const LeafIcon = this._leaflet.Icon.extend({
-        options: {
-          iconSize: [ICON_SIZE.WIDTH, ICON_SIZE.HEIGHT]
-        }
-      });
-      this._icon = new LeafIcon({iconUrl: `img/pin.svg`});
-      this._iconActive = new LeafIcon({iconUrl: `img/pin-active.svg`});*/
     }
 
     _addPins(mappedCoords) {

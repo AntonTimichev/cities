@@ -1,14 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-const PlacesSorting = ({currentKey, currentOption, options, isOpen, onSortingItemCLick, onToggleItemClick}) => {
+const PlacesSorting = ({currentOption, options, isOpen, onSortingItemCLick, onToggleItemClick}) => {
+  const optionsClassName = `places__options places__options--custom ${isOpen ? `places__options--opened` : ``}`;
 
   const handleSortingClick = (e) => {
     e.preventDefault();
-    const {key} = e.target.dataset;
-    if (key === currentKey) {
-      return;
-    }
     onSortingItemCLick(e.target.dataset.key);
     onToggleItemClick();
   };
@@ -16,8 +13,6 @@ const PlacesSorting = ({currentKey, currentOption, options, isOpen, onSortingIte
   const handleSpanBtnClick = () => {
     onToggleItemClick();
   };
-
-  const optionsClassName = `places__options places__options--custom ${isOpen ? `places__options--opened` : ``}`;
 
   return <form className="places__sorting" action="#" method="get">
     <span className="places__sorting-caption">Sort by</span>
@@ -37,7 +32,7 @@ const PlacesSorting = ({currentKey, currentOption, options, isOpen, onSortingIte
 };
 
 PlacesSorting.propTypes = {
-  currentKey: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
+  // currentKey: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
   options: PropTypes.object.isRequired,
   currentOption: PropTypes.string.isRequired,
   onSortingItemCLick: PropTypes.func.isRequired,

@@ -3,9 +3,9 @@ import PropTypes from "prop-types";
 
 import withMap from "../../hocs/with-map/with-map.jsx";
 import OffersList from "../offers-list/offers-list.jsx";
-import {PROPERTY_MAP} from "../../hocs/with-map/class-names.js";
+import {propertyMap} from "../../Apperance.js";
 
-const MapWrapped = withMap(PROPERTY_MAP);
+const MapWrapped = withMap(propertyMap);
 
 const NearPlaces = (props) => {
   const {location, mappedCoords, nearOffers, activeItem, onItemClick, leaflet} = props;

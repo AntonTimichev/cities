@@ -2,7 +2,7 @@
 
 exports[`App is rendered correctly 1`] = `
 <main
-  className="page__main page__main--index"
+  className="page__main page__main--index "
 >
   <h1
     className="visually-hidden"
@@ -135,7 +135,7 @@ exports[`App is rendered correctly 1`] = `
             onClick={[Function]}
             tabIndex="0"
           >
-            Popular
+            dd
             <svg
               className="places__sorting-arrow"
               height="4"

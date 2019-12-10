@@ -8,6 +8,14 @@ body {
   margin: 0
 }
 
+body > #root > main {
+  height: 100vh;
+}
+
+.page {
+  min-height: 100vh;
+}
+
 main {
   display: block
 }
@@ -1766,6 +1774,7 @@ img {
 .login::after {
   content: "";
   position: absolute;
+  top: -7vh;
   width: 12.03vh;
   min-width: 195px;
   height: 100vh;
