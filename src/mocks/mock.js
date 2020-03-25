@@ -29,6 +29,8 @@ export const leafletMock = {
   }
 };
 
+const r = 1;
+
 export const OffersMock = [
   {
     bedrooms: 1,
