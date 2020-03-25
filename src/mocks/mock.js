@@ -1,3 +1,5 @@
+const o = 3;
+
 export const leafletMock = {
   icon: jest.fn(),
   map() {
